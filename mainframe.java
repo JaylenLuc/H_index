@@ -11,9 +11,6 @@ import javax.swing.border.Border;
 import java.awt.*;  
 import java.awt.event.*;  
 import java.awt.image.*;
-//NEXT STEP: add button to initiate calculation of H index
-//add a display for the raw hirsch score
-//hisrch score dissapears once the user edits the textarea
 //POSSIBLE FEATURES THEREAFTER:
 //questions tab that includes common questions in subtabs that open another tab
 //(may be individuals or insitutitons )h index search that displays all the names and h indexes of those who fall within the h index query range given a margin
@@ -47,16 +44,19 @@ public class mainframe extends JFrame{
         //Box box1 = Box.createVerticalBox();
         //box1.add(frame.getContentPane());
         frame.getContentPane().setBackground(new Color(253, 253, 150));
+        //gbc.insets = new Insets(5,5,5,5);
         gbc.gridx = 0;
         gbc.gridy = 2;
         panel.add(createButtonOutPut(),gbc);
         houtput = new JTextField(3);
         houtput.setEditable(false);
+        //gbc.gridwidth = 50;
         gbc.gridx = 0;
         gbc.gridy = 4;
         JLabel hres = new JLabel("H-Index: ");
         panel.add(hres,gbc);
-        gbc.gridx = 1;
+        gbc.insets = new Insets(10,140,10,10);
+        gbc.gridx = 0;
         gbc.gridy = 4;
         Color pass = rgb_complement_color();
         Border border = BorderFactory.createLineBorder(pass, 2);
@@ -149,7 +149,8 @@ public class mainframe extends JFrame{
         //panel.setLayout(new BorderLayout());  
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(new JLabel("Enter the number of citations seperated by a ',' with no space: "), gbc);
+        gbc.insets = new Insets(10,10,10,10);
+        panel.add(new JLabel("<html>Enter the number of citations seperated by a ',' with no space:  <br/></html>"), gbc);
         //panel.setLayout(new GridBagLayout());
         //panel.setLayout(new BorderLayout());
         //gbc = new GridBagConstraints();
@@ -188,7 +189,9 @@ public class mainframe extends JFrame{
     class Hbutton_listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             int res = calculator.h_bomb(textArea.getText());
-            houtput.setText(String.valueOf(res));
+            if (res != -1){
+                houtput.setText(String.valueOf(res));
+            }
             
         }
     }
@@ -207,9 +210,9 @@ public class mainframe extends JFrame{
                 JPanel y;
                 String iurl = "https://media-exp1.licdn.com/dms/image/D5603AQEfV5LhlycK0w/profile-displayphoto-shrink_400_400/0/1670322353185?e=1675900800&v=beta&t=CIhnVk7-shv8FJGrEbdl9YY-RvouBt6IldnYg8_gzG0";
                 try{
-                    File f = new File("H_index/jaylen");
-                    
-                    BufferedImage mePicture = ImageIO.read(f);
+                    File file = new File(System.getProperty("user.dir") + "/jaylen");
+                    //System.out.println(file.toString());
+                    BufferedImage mePicture = ImageIO.read(file);
                     meee = new JLabel(new ImageIcon(mePicture));
                     y = new JPanel();
                     

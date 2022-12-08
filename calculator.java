@@ -22,7 +22,9 @@ public class calculator {
 			//  	System.out.println(i);
 			//  }
 
-		}catch(NumberFormatException e){return -1;}
+		}catch(NumberFormatException e){
+			return -1;
+		}
 		int i;
 		for (i = 0; i < h_nums.length; i++){
 			if (h_nums[i]  < i+1){
