@@ -262,10 +262,15 @@ public class mainframe extends JFrame{
             }
         }
     }
-
+    //FIXED STATUS :: NO
+    //*************************************************************************************************************************************************************** 
+    //stream takes care and handles for both these bugs. now the challenge is preventing them from even occuring at the keybaord press
     //KNOWN BUG:: ability to place mutliple commas consequtively in places other than the last index if and only if there is not a comma at the last char space
     //get caret position and see if the position to the right or left contains , in which you consume()
     //CARET POS:: 0a1b2c3d4e5
+    //KNOWN BUG:: ability to place numbers with length greater than 9
+    //parse text and count digit chars until a comma is reached or index 0 is reached. if num > 9 then consume()
+    //*************************************************************************************************************************************************************** 
     class Htext_listener implements KeyListener {
         //public boolean prev = false;
 

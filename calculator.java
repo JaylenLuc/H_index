@@ -15,7 +15,7 @@ public class calculator {
 		//takes in user input and outputs h index
 		try{
 
-			h_nums = Stream.of(ind.split(","))
+			h_nums = Stream.of(ind.split(",")).filter(i -> i.length() < 9 && !i.equals(""))
 			.map(Integer::valueOf).sorted(Comparator.reverseOrder())
 			.toArray(size -> new Integer[size]);
 			//  for (int i : h_nums){
