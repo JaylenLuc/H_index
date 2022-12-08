@@ -11,9 +11,13 @@ import javax.swing.border.Border;
 import java.awt.*;  
 import java.awt.event.*;  
 import java.awt.image.*;
+//MOST IMPORTANT LAYOUT FEATURES: gridbaglayout, gridbagconstraints, insets
 //POSSIBLE FEATURES THEREAFTER:
 //questions tab that includes common questions in subtabs that open another tab
-//(may be individuals or insitutitons )h index search that displays all the names and h indexes of those who fall within the h index query range given a margin
+//h index limitations tab
+//calculate percentile
+//calculate other index variants or similar indexes
+//normalization based on field
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -191,6 +195,7 @@ public class mainframe extends JFrame{
             int res = calculator.h_bomb(textArea.getText());
             if (res != -1){
                 houtput.setText(String.valueOf(res));
+
             }
             
         }
@@ -258,6 +263,9 @@ public class mainframe extends JFrame{
         }
     }
 
+    //KNOWN BUG:: ability to place mutliple commas consequtively in places other than the last index if and only if there is not a comma at the last char space
+    //get caret position and see if the position to the right or left contains , in which you consume()
+    //CARET POS:: 0a1b2c3d4e5
     class Htext_listener implements KeyListener {
         //public boolean prev = false;
 

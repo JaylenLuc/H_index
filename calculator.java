@@ -23,6 +23,7 @@ public class calculator {
 			//  }
 
 		}catch(NumberFormatException e){
+			System.out.println(e.getMessage());
 			return -1;
 		}
 		int i;
