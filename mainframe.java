@@ -215,14 +215,18 @@ public class mainframe extends JFrame{
                 JPanel y;
                 String iurl = "https://media-exp1.licdn.com/dms/image/D5603AQEfV5LhlycK0w/profile-displayphoto-shrink_400_400/0/1670322353185?e=1675900800&v=beta&t=CIhnVk7-shv8FJGrEbdl9YY-RvouBt6IldnYg8_gzG0";
                 try{
-                    File file = new File(System.getProperty("user.dir") + "/jaylen");
-                    //System.out.println(file.toString());
+                   
+                    File file = new File("");
+                    if (System.getProperty("os.name").contains("Mac")){
+                        file = new File(System.getProperty("user.dir") + "/jaylen");
+                    }
                     BufferedImage mePicture = ImageIO.read(file);
                     meee = new JLabel(new ImageIcon(mePicture));
                     y = new JPanel();
                     
                     
                 }catch(IOException e){
+
                     try{
                         URL url = new URL(iurl);
                         BufferedImage mePicture = ImageIO.read(url);
@@ -262,12 +266,13 @@ public class mainframe extends JFrame{
             }
         }
     }
-    //FIXED STATUS :: NO
+    //FIXED STATUS :: YES
     //*************************************************************************************************************************************************************** 
     //stream takes care and handles for both these bugs. now the challenge is preventing them from even occuring at the keybaord press
     //KNOWN BUG:: ability to place mutliple commas consequtively in places other than the last index if and only if there is not a comma at the last char space
     //get caret position and see if the position to the right or left contains , in which you consume()
     //CARET POS:: 0a1b2c3d4e5
+    //FIXED::
     //KNOWN BUG:: ability to place numbers with length greater than 9
     //parse text and count digit chars until a comma is reached or index 0 is reached. if num > 9 then consume()
     //*************************************************************************************************************************************************************** 
@@ -285,6 +290,7 @@ public class mainframe extends JFrame{
             if (((JTextArea)event.getSource()).getText().equals("Example: 3,4,7,38") && 
             Character.isDigit(event.getKeyChar())){
                 ((JTextArea)event.getSource()).setText("");
+                //System.out.println("fdsaf");
 
             }
             else if (((JTextArea)event.getSource()).getText().equals("Example: 3,4,7,38") && 
@@ -293,20 +299,47 @@ public class mainframe extends JFrame{
                 this.keyTyped(event);
 
             }
+            // else if (!(((JTextArea)event.getSource()).getText().equals("Example: 3,4,7,38")) && c == ',' &&
+            // ((JTextArea)event.getSource()).getCaretPosition() !=
+            // ((JTextArea)event.getSource()).getText().length-1){
+
+            //     System.out.println("arrar");
+            //     good = false;
+            //     this.keyTyped(event);
+            // }
 
             else if(!Character.isDigit(c) && c != ','  && code != KeyEvent.VK_BACK_SPACE 
             && code != KeyEvent.VK_LEFT && code != KeyEvent.VK_RIGHT) {
                 good = false;
                 this.keyTyped(event); // ignore event
-            }else{
-                if (((JTextArea)event.getSource()).getText().charAt(((JTextArea)event.getSource()).getText().length()-1) == ','
-                && c == ','){
+            }
+            else if (Character.isDigit(c)){
+                int count = 0;
+                char[] char_arr = ((JTextArea)event.getSource()).getText().toCharArray();
+                for (int b = ((JTextArea)event.getSource()).getText().length()-1; b >= 0 ; b--){
+                    if (Character.isDigit(char_arr[b])){
+                        count++;
+                    }else{
+                        break;
+                    }
+                    if (count > 7){
+                        good = false;
+                        this.keyTyped(event); // ignore event
+                    }
+                }
+            }
+            else{
+                int pos = ((JTextArea)event.getSource()).getCaretPosition() ;
+                String text = ((JTextArea)event.getSource()).getText();
+                System.out.println(pos);
+                
+                if ((c == ',')&&(pos != 0 && text.charAt(pos-1) == ',' || (text.length() != pos && text.charAt(pos) == ','))){
                     good = false;
                     this.keyTyped(event);
                 }
 
             }
-            
+            //0h1i
             
         }
         public void keyReleased(KeyEvent event){
