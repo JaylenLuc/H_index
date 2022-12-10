@@ -32,6 +32,7 @@ public class mainframe extends JFrame{
     private JTextArea textArea;
     private JPanel panel;
     private JTextField houtput;
+    private JTextField hpercout;
     private GridBagConstraints gbc;
     
     public mainframe(){
@@ -66,6 +67,20 @@ public class mainframe extends JFrame{
         Border border = BorderFactory.createLineBorder(pass, 2);
         houtput.setBorder(border);
         panel.add(houtput, gbc);
+        gbc.insets = new Insets(10,140,10,10);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        hpercout = new JTextField(3);
+        Border border1 = BorderFactory.createLineBorder(pass, 2);
+        hpercout.setBorder(border1);
+        JLabel hpercent = new JLabel("H-Index Percentile Approximation: ");
+        panel.add(hpercout, gbc);
+        gbc.insets = new Insets(10,10,10,157);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        hpercout.setEditable(false);
+        panel.add(hpercent, gbc);
+
 
         //frame.add(houtput);
         frame.setVisible(true);
@@ -104,6 +119,22 @@ public class mainframe extends JFrame{
         //}
         
     }
+    // private Color rgb_complement_color2(){
+    //     //if (x != null){
+            
+    //     Color temp = frame.getContentPane().getBackground();
+    //     int r = temp.getRed();
+    //     int g = temp.getGreen();
+    //     int b = temp.getBlue();
+    //     Integer[] temparr = {r,g,b};
+    //     ArrayList<Integer> color_array = new ArrayList<Integer>(Arrays.asList(temparr));
+    //     r = (Collections.max(color_array) + Collections.min(color_array) - r ) ;
+    //     b = (Collections.max(color_array) + Collections.min(color_array) - b) ;
+    //     g = (Collections.max(color_array) + Collections.min(color_array) - g) ;
+    //     return new Color(r,g,b);
+    //     //}
+        
+    // }
         
 
     private JMenuBar createMenu(){
@@ -190,6 +221,9 @@ public class mainframe extends JFrame{
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
     }
+
+    //listens for h button press and calculates and sets the number into the output box respectively
+
     class Hbutton_listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             int res = calculator.h_bomb(textArea.getText());
@@ -202,7 +236,7 @@ public class mainframe extends JFrame{
     }
     class creator_listener implements ActionListener{
         public void actionPerformed(ActionEvent event) {
-            System.out.println(n);
+            //System.out.println(n);
             if (n == null){
                 n = new JDialog();
                 n.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -331,7 +365,7 @@ public class mainframe extends JFrame{
             else{
                 int pos = ((JTextArea)event.getSource()).getCaretPosition() ;
                 String text = ((JTextArea)event.getSource()).getText();
-                System.out.println(pos);
+                //System.out.println(pos);
                 
                 if ((c == ',')&&(pos != 0 && text.charAt(pos-1) == ',' || (text.length() != pos && text.charAt(pos) == ','))){
                     good = false;
@@ -374,45 +408,53 @@ public class mainframe extends JFrame{
 
                     frame.getContentPane().setBackground(new Color(242, 177, 149));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "green":
                     
                     frame.getContentPane().setBackground( new Color(191, 227, 180));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "blue":
                     frame.getContentPane().setBackground(new Color(171, 215, 235));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "white":
                     frame.getContentPane().setBackground(Color.WHITE);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "grey":
                 
                     frame.getContentPane().setBackground(defaultcolor);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     //System.out.println(defaultcolor);
                     break;
                 case "purple":
                     //189 182 206
                     frame.getContentPane().setBackground(new Color(189, 182, 206));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 //R:253, G:217, B:209
                 case "pink":
                     //189 182 206
                     frame.getContentPane().setBackground(new Color(253, 217, 209));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "yellow":
 
                     frame.getContentPane().setBackground(new Color(253, 253, 150));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 
 
@@ -424,7 +466,7 @@ public class mainframe extends JFrame{
         }
 
     }
-    //----------------------------------------------------------------------------------------------------------------
+    //END OF ACTION LISTENERS----------------------------------------------------------------------------------------------------------------
 	
     public static void main(String[] args)
 	{

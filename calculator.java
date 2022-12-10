@@ -36,6 +36,11 @@ public class calculator {
 		return i;
 		
 	}
+
+	public static int h_percent(int h){
+
+		return -1;
+	}
     public static void main(String[] args)
 	{
 		System.out.println(h_bomb("3,0,6,1,5"));
