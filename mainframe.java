@@ -18,6 +18,7 @@ import java.awt.image.*;
 //calculate percentile
 //calculate other index variants or similar indexes
 //normalization based on field
+//graph that graphs all the points
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -53,7 +54,8 @@ public class mainframe extends JFrame{
         gbc.gridx = 0;
         gbc.gridy = 2;
         panel.add(createButtonOutPut(),gbc);
-        houtput = new JTextField(3);
+        houtput = new JTextField(4);
+        //houtput.setText("99.545");
         houtput.setEditable(false);
         //gbc.gridwidth = 50;
         gbc.gridx = 0;
@@ -70,7 +72,7 @@ public class mainframe extends JFrame{
         gbc.insets = new Insets(10,140,10,10);
         gbc.gridx = 0;
         gbc.gridy = 5;
-        hpercout = new JTextField(3);
+        hpercout = new JTextField(4);
         Border border1 = BorderFactory.createLineBorder(pass, 2);
         hpercout.setBorder(border1);
         JLabel hpercent = new JLabel("H-Index Percentile Approximation: ");
