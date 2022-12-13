@@ -3,7 +3,9 @@ package H_index_calc;
 import java.util.*;
 import java.util.stream.*;
 
-
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -15,12 +17,12 @@ import java.awt.image.*;
 //POSSIBLE FEATURES THEREAFTER:
 //questions tab that includes common questions in subtabs that open another tab
 //h index limitations tab
-//calculate percentile
 //calculate other index variants or similar indexes
 //normalization based on field
 //graph that graphs all the points
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.*;  
@@ -394,9 +396,18 @@ public class mainframe extends JFrame{
                 try{
                    
                     File file = new File("");
-                    if (System.getProperty("os.name").contains("Mac")){
-                        file = new File(System.getProperty("user.dir") + "/jaylen");
-                    }
+
+                    
+                    //System.out.println("--------");
+                    //String url = mainframe.class.getResource("jaylen").getPath();
+                    //System.out.println(url);
+                
+                    file = new File(System.getProperty("user.dir") + File.separator + "jaylen");
+                    
+                    //EXAMPLE FILEPATH of photo :: /Users/jaylenluc/Desktop/H_index_calc/jaylen
+                    //String user_dir = System.getProperty("user.dir");
+                    // /Users/jaylenluc/Desktop/H_index_calc/flag.txt
+                    //^prints out /Users/jaylenluc/jaylen
                     BufferedImage mePicture = ImageIO.read(file);
                     meee = new JLabel(new ImageIcon(mePicture));
                     y = new JPanel();
