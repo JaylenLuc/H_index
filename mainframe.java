@@ -23,8 +23,144 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.stream.*;  
+
+
+//were swinging this cuz i dont wanna bother with JavaFx download
 
 public class mainframe extends JFrame{
+
+//semi_utility - functional inner classes----------------------------------------------------------------------------------------------------------------
+
+    class calculator {
+        public static Integer[] h_nums;
+        public static Map<Integer, Double> percentile;
+
+        private  static void populateMap(){
+            if (percentile != null){
+                return ;
+            }
+            //no dependency issue, just an issue of instantiating a HashMap safely and securely. This brought by the reason to do
+            //the calculator class statically to maek it a pure utility class
+            //where theres smoke theres fire huh. it knows of there existence , the instantiation does not work
+            //what I did was create a function that is called to populate the map, it is called when
+            // static functions are called and conditionals that check if the hashmap is not null is false;
+            percentile = new HashMap<Integer, Double>();
+            percentile.put(0,0.0 );
+            percentile.put(1, 0.0);
+            percentile.put(2, 0.0);
+            percentile.put(3, 0.0);
+            percentile.put(4, 34.0);
+            percentile.put(5, 52.0);
+            percentile.put(6, 65.0);
+            percentile.put(7, 73.0);
+            percentile.put(8, 78.0);
+            percentile.put(9, 82.0);
+            percentile.put(10, 85.0);
+            percentile.put(11, 88.0);
+            percentile.put(12, 89.0);
+            percentile.put(13, 90.558);
+            percentile.put(14, 91.776);
+            percentile.put(15, 92.776);
+            percentile.put(16, 93.614);
+            percentile.put(17, 94.317);
+            percentile.put(18, 94.908);
+            percentile.put(19, 95.428);
+            //conditionals
+            //20 - 40  98
+            //41-80 99
+            //81 - 120 99.5
+            //121 - 132 99.8
+    
+            percentile.put(133, 99.982);
+            percentile.put(134, 99.982);
+            percentile.put(135, 99.982);
+            percentile.put(136, 99.983);
+            percentile.put(137, 99.983);
+            percentile.put(138, 99.984);
+            percentile.put(139, 99.984);
+            percentile.put(140, 99.985);
+            percentile.put(141, 99.986);
+            percentile.put(142, 99.986);
+            percentile.put(143, 99.987);
+            percentile.put(144, 99.987);
+            percentile.put(145, 99.987);
+            percentile.put(146, 99.987);
+            percentile.put(147, 99.988);
+            percentile.put(148, 99.988);
+            percentile.put(149, 99.988);
+            percentile.put(150, 99.989);
+
+        }
+
+        //each h index score is seperated by a single ',' in a String
+        // h index (f) = max{i ∈ N : f[i] >= i}
+    
+    
+        public static int h_bomb(String ind){
+            //takes in user input and outputs h index
+            //System.out.println("fsdafdfdsa");
+            try{
+    
+                h_nums = Stream.of(ind.split(",")).filter(i -> i.length() < 9 && !i.equals(""))
+                .map(Integer::valueOf).sorted(Comparator.reverseOrder())
+                .toArray(size -> new Integer[size]);
+                //  for (int i : h_nums){
+                //  	System.out.println(i);
+                //  }
+    
+            }catch(NumberFormatException e){
+                System.out.println(e.getMessage());
+                return -1;
+            }
+            int i;
+            for (i = 0; i < h_nums.length; i++){
+                if (h_nums[i]  < i+1){
+                    return i;
+                }
+                
+            }
+            return i;
+            
+        }
+    
+        public static Double h_percent(int h){
+            //conditionals
+            //20 - 40  98
+            //41-80 99
+            //81 - 120 99.5
+            //121 - 132 99.8
+
+            if (percentile == null){
+                populateMap();
+            }
+            //System.out.println("HERE");
+            Double d = percentile.get(h);
+            //System.out.println("HERE1");
+            if (d == null){
+                if (h <= 40 && h >= 20){
+                    return 98.0;
+                }else if (h >= 41 && h <=80){
+                    return 99.0;
+                }else if (h >= 81 && h <= 120){
+                    return 99.5;
+                }else if (h >= 21 && h <= 132){
+                    return 99.8;
+
+                }else if (h >= 133 && h <= 333){
+                    return 99.8;
+                }else {
+                    return 100.0;
+                }
+
+            }else{
+                //System.out.println(d);
+                return d;
+            }
+        }
+    }
+    
+//semi_utility - functional inner classes END----------------------------------------------------------------------------------------------------------------
 
     private JFrame frame;
     private JDialog n;//creator dialog
@@ -37,7 +173,8 @@ public class mainframe extends JFrame{
     private GridBagConstraints gbc;
     
     public mainframe(){
-        
+        //System.out.println(calculator.percentile);
+        //System.out.println(calculator.percentile.get(1));
         //System.out.println(n);
         frame = new JFrame();
         //frame.setLayout(new BorderLayout())   ;
@@ -228,9 +365,13 @@ public class mainframe extends JFrame{
 
     class Hbutton_listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            //System.out.print("HELLO:::   ");
+            //System.out.println(calculator.get(1));
             int res = calculator.h_bomb(textArea.getText());
-            if (res != -1){
+            double resperc = calculator.h_percent(res);
+            if (res != -1 && !textArea.getText().contains("Example:")){
                 houtput.setText(String.valueOf(res));
+                hpercout.setText(String.valueOf(resperc));
 
             }
             
@@ -393,8 +534,8 @@ public class mainframe extends JFrame{
                 //System.out.println("consume");
                 event.consume();
             }else{
-
                 houtput.setText("");
+                hpercout.setText("");
             }
             
         }
