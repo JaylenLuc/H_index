@@ -2,7 +2,7 @@ package H_index_calc;
 
 import java.util.*;
 import java.util.stream.*;
-
+import java.awt.geom.*;  
 import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
@@ -167,12 +167,14 @@ public class mainframe extends JFrame{
     private JFrame frame;
     private JDialog n;//creator dialog
 	private final Color defaultcolor = new Color(238,238,238);
-    private WindowEvent creatorwindow;
+    public WindowEvent creatorwindow;
     private JTextArea textArea;
     private JPanel panel;
     private JTextField houtput;
     private JTextField hpercout;
     private GridBagConstraints gbc;
+    public JDialog graph_window;
+    public JPanel graph_panel;
     
     public mainframe(){
         //System.out.println(calculator.percentile);
@@ -291,7 +293,9 @@ public class mainframe extends JFrame{
         JMenuItem yellow = new JMenuItem("yellow");   
         JMenuItem purple = new JMenuItem("purple");
         JMenuItem pink = new JMenuItem("pink");      
+        JMenuItem graph = new JMenuItem("Graph Visualizer");
 
+        graph.addActionListener(new graph_listener());
         pink.addActionListener(new color_listener());
         purple.addActionListener(new color_listener());
         yellow.addActionListener(new color_listener());
@@ -310,6 +314,7 @@ public class mainframe extends JFrame{
         setting.add(creator);
         menubar.add(setting);
         menubar.add(color);
+        menubar.add(graph);
         
         return menubar;
 
@@ -379,6 +384,29 @@ public class mainframe extends JFrame{
             
         }
     }
+    
+    class graph_listener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            if (graph_window == null){
+                graph_window = new JDialog();
+                graph_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                graph_window.setSize(600,600);
+                graph_window.setTitle("H_index Cartesian Visualizer");
+                graph_window.setResizable(false);
+                graph_panel = new JPanel(new GridBagLayout());
+                graph_window.add(graph_panel);
+                graph_window.setContentPane(graph_panel);
+                graph_window.getContentPane().setBackground(frame.getContentPane().getBackground());
+                rgb_complement(graph_window);
+                graph_window.setVisible(true);
+            }else{
+                
+                graph_window.setVisible(true);
+            }
+
+        }
+    }
+    
     class creator_listener implements ActionListener{
         public void actionPerformed(ActionEvent event) {
             //System.out.println(n);
@@ -556,7 +584,8 @@ public class mainframe extends JFrame{
     class color_listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             String colorEvent = ((JMenuItem) event.getSource()).getText();
-            
+            //also set the contnetnpane background of graph_window which is graph_panel
+            //set them to cusotm color objects
             switch(colorEvent) {
                 case "red":
 
@@ -568,6 +597,7 @@ public class mainframe extends JFrame{
                 case "green":
                     
                     frame.getContentPane().setBackground( new Color(191, 227, 180));
+
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
@@ -613,8 +643,9 @@ public class mainframe extends JFrame{
                 
 
             }
-            //rgb complement conversion algorithm
+            //rgb complement conversion algorithm for creator window
             rgb_complement(n);
+            rgb_complement(graph_window);
               
               
         }
