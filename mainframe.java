@@ -1,5 +1,13 @@
 package H_index_calc;
 
+
+import org.jfree.chart.ChartFactory;  
+import org.jfree.chart.ChartPanel;  
+import org.jfree.chart.JFreeChart;  
+import org.jfree.chart.plot.XYPlot;  
+import org.jfree.data.xy.XYDataset;  
+import org.jfree.data.xy.XYSeries;  
+import org.jfree.data.xy.XYSeriesCollection;  
 import java.util.*;
 import java.util.stream.*;
 import java.awt.geom.*;  
@@ -174,8 +182,9 @@ public class mainframe extends JFrame{
     private JTextField hpercout;
     private GridBagConstraints gbc;
     public JDialog graph_window;
-    public JPanel graph_panel;
-    
+    public ChartPanel graph_panel;
+    public XYDataset graph_dataset = new XYSeriesCollection();  
+    public JFreeChart chart;
     public mainframe(){
         //System.out.println(calculator.percentile);
         //System.out.println(calculator.percentile.get(1));
@@ -358,6 +367,28 @@ public class mainframe extends JFrame{
         return j;
     }
 
+    private void manipulateDataset(){
+        //graph_dataset.add(1, 72.9);  
+
+    }
+
+    private void createGraph(){
+        //graph_dataset -> data set we are going to use
+        //appends the new chart to the graph_panel
+        //it first adds it to the chartpanel
+        chart = ChartFactory.createScatterPlot(  
+        "Raw H-Index Graphed (discrete)",   
+        "Research paper count", "Citations", graph_dataset);
+        if (graph_panel == null){
+            graph_panel = new ChartPanel(chart,500,500,400,400,500,500,
+            true,true,true,true,false,true);
+            
+        }else{
+            graph_panel.setChart(chart);
+        }
+
+    }
+
 
     
 	//ACTION LISTENERS----------------------------------------------------------------------------------------------------------------
@@ -389,20 +420,30 @@ public class mainframe extends JFrame{
         public void actionPerformed(ActionEvent event) {
             if (graph_window == null){
                 graph_window = new JDialog();
+                graph_window.setLayout(new GridBagLayout());
                 graph_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 graph_window.setSize(600,600);
-                graph_window.setTitle("H_index Cartesian Visualizer");
+                graph_window.setTitle("Raw H_index Cartesian Visualizer");
                 graph_window.setResizable(false);
-                graph_panel = new JPanel(new GridBagLayout());
+                createGraph();
+                //graph_window.add(graph_panel);
                 graph_window.add(graph_panel);
-                graph_window.setContentPane(graph_panel);
-                graph_window.getContentPane().setBackground(frame.getContentPane().getBackground());
+                //Paint p = new GradientPaint(0, 0, Color.red, 100, 100, Color.pink, true); 
+        //         graph_panel.setBackground(Color.RED);
+        //         graph_panel.setPreferredSize(new java.awt.Dimension(graph_panel.getWidth(), panel.getHeight()));
+        //         graph_panel.setSize(new java.awt.Dimension(graph_panel.getWidth(), graph_panel.getHeight()));
+        // // frame.invalidate();
+        //         graph_window.validate();
+                chart.getPlot().setBackgroundPaint( rgb_complement_color() );
+                graph_panel.setBackground( rgb_complement_color() );
                 rgb_complement(graph_window);
-                graph_window.setVisible(true);
-            }else{
+                //graph_window.setVisible(true);
                 
-                graph_window.setVisible(true);
             }
+            createGraph();
+                
+            graph_window.setVisible(true);
+            
 
         }
     }
@@ -424,7 +465,7 @@ public class mainframe extends JFrame{
                 try{
                    
                     File file = new File("");
-
+                    File file2 = new File("jaylen");
                     
                     //System.out.println("--------");
                     //String url = mainframe.class.getResource("jaylen").getPath();
@@ -436,7 +477,7 @@ public class mainframe extends JFrame{
                     //String user_dir = System.getProperty("user.dir");
                     // /Users/jaylenluc/Desktop/H_index_calc/flag.txt
                     //^prints out /Users/jaylenluc/jaylen
-                    BufferedImage mePicture = ImageIO.read(file);
+                    BufferedImage mePicture = ImageIO.read(file2);
                     meee = new JLabel(new ImageIcon(mePicture));
                     y = new JPanel();
                     
