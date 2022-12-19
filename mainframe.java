@@ -693,6 +693,7 @@ public class mainframe extends JFrame{
             }else{
                 houtput.setText("");
                 hpercout.setText("");
+                series.clear();
             }
             
         }
