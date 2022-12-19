@@ -827,6 +827,7 @@ public class mainframe extends JFrame{
                 marker2.setPaint(new Color(218,112,214));
 
             }
+            //all new windows can be converted accordingly using this function. checks for null
             rgb_complement(n);
             rgb_complement(graph_window);
             // if (graph_window != null){
@@ -848,3 +849,10 @@ public class mainframe extends JFrame{
 		
 	}
 }
+
+
+
+//TODO::
+//add new colors
+//add limitations and information tab
+//maybe add a normalization thingy with jcombo box and maybe maybe graph normalized citations???
