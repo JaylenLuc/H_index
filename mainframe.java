@@ -452,7 +452,7 @@ public class mainframe extends JFrame{
                     marker2 = new ValueMarker(res);  // position is the value on the axis
                     marker2.setPaint(rgb_complement_color());
                     marker2.setStroke(new BasicStroke(1.5f));
-                    marker2.setLabel(String.format("First %d papers",res));
+                    marker2.setLabel(String.format("%d most highly cited papers",res));
                     marker2.setLabelAnchor(RectangleAnchor.TOP_LEFT);
                     marker2.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
                     //r=253,g=253,b=150
@@ -529,7 +529,7 @@ public class mainframe extends JFrame{
                     marker2 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
                     marker2.setPaint(rgb_complement_color());
                     marker2.setStroke(new BasicStroke(1.5f));
-                    marker2.setLabel(String.format("First %s papers",houtput.getText()));
+                    marker2.setLabel(String.format("%s most highly cited papers",houtput.getText()));
                     marker2.setLabelAnchor(RectangleAnchor.TOP_LEFT);
                     marker2.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
                     //System.out.println(frame.getContentPane().getBackground().toString());
