@@ -437,9 +437,11 @@ public class mainframe extends JFrame{
                 //
                 if (res != -1){
                     marker = new ValueMarker(res);  // position is the value on the axis
-                    marker.setPaint(Color.GREEN);
+                    marker.setPaint(rgb_complement_color());
+                    marker.setStroke(new BasicStroke(1.5f));
                     marker1 = new ValueMarker(res);  // position is the value on the axis
-                    marker1.setPaint(Color.GREEN);
+                    marker1.setPaint(rgb_complement_color());
+                    marker1.setStroke(new BasicStroke(1.5f));
                     marker.setLabel(String.format("Articles with at least\n %d citations",res));
                     marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
                     marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
@@ -447,10 +449,19 @@ public class mainframe extends JFrame{
                     marker1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
                     marker1.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
                     marker2 = new ValueMarker(res);  // position is the value on the axis
-                    marker2.setPaint(Color.GREEN);
+                    marker2.setPaint(rgb_complement_color());
+                    marker2.setStroke(new BasicStroke(1.5f));
                     marker2.setLabel(String.format("First %d papers",res));
                     marker2.setLabelAnchor(RectangleAnchor.TOP_LEFT);
                     marker2.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
+                    //r=253,g=253,b=150
+                    if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
+                    &&frame.getContentPane().getBackground().getBlue() == 206){
+                        marker.setPaint(new Color(154, 205, 50));
+                        marker1.setPaint(new Color(154, 205, 50));
+                        marker2.setPaint(new Color(154, 205, 50));
+        
+                }
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
 
                     XYPlot plot =chart.getXYPlot();
@@ -479,11 +490,11 @@ public class mainframe extends JFrame{
                 //graph_window.add(graph_panel);
                 graph_window.add(graph_panel);
                 //Paint p = new GradientPaint(0, 0, Color.red, 100, 100, Color.pink, true); 
-        //         graph_panel.setBackground(Color.RED);
-        //         graph_panel.setPreferredSize(new java.awt.Dimension(graph_panel.getWidth(), panel.getHeight()));
-        //         graph_panel.setSize(new java.awt.Dimension(graph_panel.getWidth(), graph_panel.getHeight()));
-        // // frame.invalidate();
-        //         graph_window.validate(); 
+                //         graph_panel.setBackground(Color.RED);
+                //         graph_panel.setPreferredSize(new java.awt.Dimension(graph_panel.getWidth(), panel.getHeight()));
+                //         graph_panel.setSize(new java.awt.Dimension(graph_panel.getWidth(), graph_panel.getHeight()));
+                // // frame.invalidate();
+                //         graph_window.validate(); 
                 //chart.getXYPlot().setBackgroundPaint(rgb_complement_color());  
                 // ((XYPlot)chart).getPlot().setBackgroundPaint( rgb_complement_color() );
                 //graph_panel.setBackground( rgb_complement_color() );
@@ -491,34 +502,50 @@ public class mainframe extends JFrame{
                 //graph_window.setContentPane(graph_);
                 //maybe set contentpane of grapj_window to Chart Panel which in this case is the graph_panel
                 //graph_window.setVisible(true);
+                if (!houtput.getText().isEmpty() ){
+                    marker = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
+                    marker.setPaint(rgb_complement_color());
+                    marker.setStroke(new BasicStroke(1.5f));
+                    //marker.setLabel("Original Close (02:00)");
+                    marker1 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
+                    marker1.setPaint(rgb_complement_color());
+            
+                    marker1.setStroke(new BasicStroke(1.5f));
+                    marker.setLabel(String.format("Papers with at least\n %s citations",houtput.getText()));
+                    marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
+                    marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
+                    marker1.setLabel(String.format("Papers with less than %s citations",houtput.getText()));
+                    marker1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
+                    marker1.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
+                    marker2 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
+                    marker2.setPaint(rgb_complement_color());
+                    marker2.setStroke(new BasicStroke(1.5f));
+                    marker2.setLabel(String.format("First %s papers",houtput.getText()));
+                    marker2.setLabelAnchor(RectangleAnchor.TOP_LEFT);
+                    marker2.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
+                    //System.out.println(frame.getContentPane().getBackground().toString());
+                    //r=189,g=182,b=206
+                    if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
+                        &&frame.getContentPane().getBackground().getBlue() == 206){
+                            marker.setPaint(new Color(154, 205, 50));
+                            marker1.setPaint(new Color(154, 205, 50));
+                            marker2.setPaint(new Color(154, 205, 50));
+            
+                    }
+                    //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
                 
+                    XYPlot plot =chart.getXYPlot();
+                    plot.addRangeMarker(marker1);
+                    plot.addDomainMarker(marker);
+                    plot.addRangeMarker(marker2);
+                    
+                }
+                
+            
+            
+            
             }
             
-            if (!houtput.getText().isEmpty()){
-                marker = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
-                marker.setPaint(Color.GREEN);
-                //marker.setLabel("Original Close (02:00)");
-                marker1 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
-                marker1.setPaint(Color.GREEN);
-                marker.setLabel(String.format("Papers with at least\n %s citations",houtput.getText()));
-                marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
-                marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
-                marker1.setLabel(String.format("Papers with less than %s citations",houtput.getText()));
-                marker1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
-                marker1.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
-                marker2 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
-                marker2.setPaint(Color.GREEN);
-                marker2.setLabel(String.format("First %s papers",houtput.getText()));
-                marker2.setLabelAnchor(RectangleAnchor.TOP_LEFT);
-                marker2.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
-                //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
-
-                XYPlot plot =chart.getXYPlot();
-                plot.addRangeMarker(marker1);
-                plot.addDomainMarker(marker);
-                plot.addRangeMarker(marker2);
-            }
-                
             graph_window.setVisible(true);
             
 
@@ -705,6 +732,7 @@ public class mainframe extends JFrame{
             String colorEvent = ((JMenuItem) event.getSource()).getText();
             //also set the contnetnpane background of graph_window which is graph_panel
             //set them to cusotm color objects
+            //System.out.println(frame.getContentPane().getBackground().toString());
             switch(colorEvent) {
                 case "red":
 
@@ -763,6 +791,17 @@ public class mainframe extends JFrame{
 
             }
             //rgb complement conversion algorithm for creator window
+            if (graph_window != null && colorEvent != "purple" ){
+                marker.setPaint(rgb_complement_color());
+                marker1.setPaint(rgb_complement_color());
+                marker2.setPaint(rgb_complement_color());
+            }
+            if (graph_window != null && colorEvent == "purple"){
+                marker.setPaint(new Color(154, 205, 50));
+                marker1.setPaint(new Color(154, 205, 50));
+                marker2.setPaint(new Color(154, 205, 50));
+
+            }
             rgb_complement(n);
             rgb_complement(graph_window);
             // if (graph_window != null){
