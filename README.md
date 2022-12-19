@@ -1,5 +1,5 @@
 # H_index
-Will be made into a windows Executable and MACH-O executable
+Will be made into a windows Executable and Mac executable
 
 a fun User interface for calculating the H Index with a few additional ancillary features including experimental equations for normalizing the Hirsch index
 
