@@ -4,6 +4,8 @@ package H_index_calc;
 import org.jfree.chart.ChartFactory;  
 import org.jfree.chart.ChartPanel;  
 import org.jfree.chart.JFreeChart;  
+import org.jfree.chart.plot.Marker;
+import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;  
 import org.jfree.data.xy.XYDataset;  
 import org.jfree.data.xy.XYSeries;  
@@ -17,7 +19,8 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
-
+import org.jfree.ui.RectangleAnchor;
+import org.jfree.ui.TextAnchor;
 import java.awt.*;  
 import java.awt.event.*;  
 import java.awt.image.*;
@@ -133,6 +136,7 @@ public class mainframe extends JFrame{
             return i;
             
         }
+ 
     
         public static Double h_percent(int h){
             //conditionals
@@ -183,9 +187,15 @@ public class mainframe extends JFrame{
     private GridBagConstraints gbc;
     public JDialog graph_window;
     public ChartPanel graph_panel;
-    public XYDataset graph_dataset = new XYSeriesCollection();  
+    public XYSeriesCollection graph_dataset = new XYSeriesCollection();  
+    public XYSeries series =  new XYSeries("Publication");  
+    public int prev_ = -1;
     public JFreeChart chart;
+    public ValueMarker marker1;
+    public ValueMarker marker;
+    public ValueMarker marker2;
     public mainframe(){
+        graph_dataset.addSeries(series);
         //System.out.println(calculator.percentile);
         //System.out.println(calculator.percentile.get(1));
         //System.out.println(n);
@@ -367,11 +377,6 @@ public class mainframe extends JFrame{
         return j;
     }
 
-    private void manipulateDataset(){
-        //graph_dataset.add(1, 72.9);  
-
-    }
-
     private void createGraph(){
         //graph_dataset -> data set we are going to use
         //appends the new chart to the graph_panel
@@ -388,6 +393,15 @@ public class mainframe extends JFrame{
         }
 
     }
+    private void change_data_set(){
+        series.clear();
+        for (int i = 0; i < calculator.h_nums.length; i++){
+            series.add(i+1,calculator.h_nums[i]);
+        }
+        //series.setSeriesPaint();
+
+    }
+
 
 
     
@@ -405,13 +419,49 @@ public class mainframe extends JFrame{
         public void actionPerformed(ActionEvent event) {
             //System.out.print("HELLO:::   ");
             //System.out.println(calculator.get(1));
-            int res = calculator.h_bomb(textArea.getText());
+
+            int res = calculator.h_bomb(textArea.getText()); //popualtes the public static variable : h_nums
             double resperc = calculator.h_percent(res);
             if (res != -1 && !textArea.getText().contains("Example:")){
                 houtput.setText(String.valueOf(res));
                 hpercout.setText(String.valueOf(resperc));
+                change_data_set();
 
             }
+            if (textArea.getText().contains("Example:")){
+                series.clear();
+            }
+            if (graph_window != null ){
+                createGraph();
+                graph_window.add(graph_panel);
+                //
+                if (res != -1){
+                    marker = new ValueMarker(res);  // position is the value on the axis
+                    marker.setPaint(Color.GREEN);
+                    marker1 = new ValueMarker(res);  // position is the value on the axis
+                    marker1.setPaint(Color.GREEN);
+                    marker.setLabel(String.format("Articles with at least %d citations",res));
+                    marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
+                    marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
+                    marker1.setLabel(String.format("Articles with less than %d citations",res));
+                    marker1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
+                    marker1.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
+                    marker2 = new ValueMarker(res);  // position is the value on the axis
+                    marker2.setPaint(Color.GREEN);
+                    marker2.setLabel(String.format("First %d papers",res));
+                    marker2.setLabelAnchor(RectangleAnchor.BOTTOM_LEFT);
+                    marker2.setLabelTextAnchor(TextAnchor.TOP_LEFT);
+                    //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
+
+                    XYPlot plot =chart.getXYPlot();
+                    plot.addRangeMarker(marker1);
+                    plot.addDomainMarker(marker);
+                    plot.addRangeMarker(marker2);
+                }
+                
+                //graph_window.setVisible(true);
+            }
+           // prev_ = res;
             
         }
     }
@@ -433,14 +483,41 @@ public class mainframe extends JFrame{
         //         graph_panel.setPreferredSize(new java.awt.Dimension(graph_panel.getWidth(), panel.getHeight()));
         //         graph_panel.setSize(new java.awt.Dimension(graph_panel.getWidth(), graph_panel.getHeight()));
         // // frame.invalidate();
-        //         graph_window.validate();
-                chart.getPlot().setBackgroundPaint( rgb_complement_color() );
-                graph_panel.setBackground( rgb_complement_color() );
+        //         graph_window.validate(); 
+                //chart.getXYPlot().setBackgroundPaint(rgb_complement_color());  
+                // ((XYPlot)chart).getPlot().setBackgroundPaint( rgb_complement_color() );
+                //graph_panel.setBackground( rgb_complement_color() );
                 rgb_complement(graph_window);
+                //graph_window.setContentPane(graph_);
+                //maybe set contentpane of grapj_window to Chart Panel which in this case is the graph_panel
                 //graph_window.setVisible(true);
                 
             }
-            createGraph();
+            
+            if (!houtput.getText().isEmpty()){
+                marker = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
+                marker.setPaint(Color.GREEN);
+                //marker.setLabel("Original Close (02:00)");
+                marker1 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
+                marker1.setPaint(Color.GREEN);
+                marker.setLabel(String.format("Papers with at least %s citations",houtput.getText()));
+                marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
+                marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
+                marker1.setLabel(String.format("Papers with less than %s citations",houtput.getText()));
+                marker1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
+                marker1.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
+                marker2 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
+                marker2.setPaint(Color.GREEN);
+                marker2.setLabel(String.format("First %s papers",houtput.getText()));
+                marker2.setLabelAnchor(RectangleAnchor.BOTTOM_LEFT);
+                marker2.setLabelTextAnchor(TextAnchor.TOP_LEFT);
+                //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
+
+                XYPlot plot =chart.getXYPlot();
+                plot.addRangeMarker(marker1);
+                plot.addDomainMarker(marker);
+                plot.addRangeMarker(marker2);
+            }
                 
             graph_window.setVisible(true);
             
@@ -471,7 +548,7 @@ public class mainframe extends JFrame{
                     //String url = mainframe.class.getResource("jaylen").getPath();
                     //System.out.println(url);
                 
-                    file = new File(System.getProperty("user.dir") + File.separator + "jaylen");
+                    file = new File("jaylen");
                     
                     //EXAMPLE FILEPATH of photo :: /Users/jaylenluc/Desktop/H_index_calc/jaylen
                     //String user_dir = System.getProperty("user.dir");
@@ -687,6 +764,11 @@ public class mainframe extends JFrame{
             //rgb complement conversion algorithm for creator window
             rgb_complement(n);
             rgb_complement(graph_window);
+            // if (graph_window != null){
+            //     ((XYPlot)chart).getPlot().setBackgroundPaint( rgb_complement_color() );
+            //     graph_panel.setBackground( rgb_complement_color() );
+            //     rgb_complement(graph_window);
+            // }
               
               
         }
