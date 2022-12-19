@@ -209,7 +209,7 @@ public class mainframe extends JFrame{
         frame.setContentPane(createIO());
         //Box box1 = Box.createVerticalBox();
         //box1.add(frame.getContentPane());
-        frame.getContentPane().setBackground(new Color(253, 253, 150));
+        frame.getContentPane().setBackground(new Color(170, 143, 121));
         //gbc.insets = new Insets(5,5,5,5);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -312,11 +312,13 @@ public class mainframe extends JFrame{
         JMenuItem yellow = new JMenuItem("yellow");   
         JMenuItem purple = new JMenuItem("purple");
         JMenuItem pink = new JMenuItem("pink");      
+        JMenuItem brown = new JMenuItem("brown");    
         JMenuItem graph = new JMenuItem("Graph Visualizer");
 
         graph.addActionListener(new graph_listener());
         pink.addActionListener(new color_listener());
         purple.addActionListener(new color_listener());
+        brown.addActionListener(new color_listener());
         yellow.addActionListener(new color_listener());
         grey.addActionListener(new color_listener());
         red.addActionListener(new color_listener());
@@ -325,7 +327,7 @@ public class mainframe extends JFrame{
         white.addActionListener(new color_listener());
         color.add(red); color.add(green); color.add(blue); 
         color.add(white); color.add(grey); color.add(yellow);
-        color.add(purple); color.add(pink);
+        color.add(purple); color.add(pink); color.add(brown);
         exitItem.addActionListener(new exit_listener());
         JMenuItem creator = new JMenuItem("the developer");
         creator.addActionListener(new creator_listener());
@@ -437,6 +439,7 @@ public class mainframe extends JFrame{
                 graph_window.add(graph_panel);
                 //
                 if (res != -1){
+                    //System.out.println(res);
                     marker = new ValueMarker(res);  // position is the value on the axis
                     marker.setPaint(rgb_complement_color());
                     marker.setStroke(new BasicStroke(1.5f));
@@ -485,6 +488,9 @@ public class mainframe extends JFrame{
             
         }
     }
+
+    // BUG :: fix the label alignment issue
+    // BUG :: value markers do not dissapear when the h index is 0 or 1. not substantially breaking but is not pleasing to the eye
     
     class graph_listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -512,6 +518,7 @@ public class mainframe extends JFrame{
                 //maybe set contentpane of grapj_window to Chart Panel which in this case is the graph_panel
                 //graph_window.setVisible(true);
                 if (!houtput.getText().isEmpty() ){
+                    //System.out.println(houtput.getText());
                     marker = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
                     marker.setPaint(rgb_complement_color());
                     marker.setStroke(new BasicStroke(1.5f));
@@ -587,13 +594,13 @@ public class mainframe extends JFrame{
                 try{
                    
                     File file = new File("");
-                    File file2 = new File("jaylen");
+                    File file2 = new File("./jaylen");
                     
                     //System.out.println("--------");
                     //String url = mainframe.class.getResource("jaylen").getPath();
                     //System.out.println(url);
                 
-                    file = new File("jaylen");
+                    file = new File("./jaylen");
                     
                     //EXAMPLE FILEPATH of photo :: /Users/jaylenluc/Desktop/H_index_calc/jaylen
                     //String user_dir = System.getProperty("user.dir");
@@ -639,7 +646,7 @@ public class mainframe extends JFrame{
                 
                 
             }else{
-                System.out.println("n");
+                //System.out.println("n");
                 n.setVisible(true);
                 
             }
@@ -739,10 +746,21 @@ public class mainframe extends JFrame{
                 houtput.setText("");
                 hpercout.setText("");
                 series.clear();
+
                 
-                marker = null;
-                marker1 = null;
-                marker2 = null;
+            
+                if (marker != null){
+                    //System.out.println(marker.getValue());
+                    marker = null;
+                    marker1 = null;
+                    marker2 = null;
+                    // System.out.println(marker.getValue());
+                    // System.out.println(marker1.getValue());
+                    // System.out.println(marker2.getValue());
+                }
+               
+                
+               
             }
             
         }
@@ -809,7 +827,12 @@ public class mainframe extends JFrame{
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
-                
+                case "brown":
+                    frame.getContentPane().setBackground(new Color(170, 143, 121));
+                    houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    break;
+
 
             }
             //rgb complement conversion algorithm for creator window
