@@ -739,6 +739,10 @@ public class mainframe extends JFrame{
                 houtput.setText("");
                 hpercout.setText("");
                 series.clear();
+                
+                marker = null;
+                marker1 = null;
+                marker2 = null;
             }
             
         }
