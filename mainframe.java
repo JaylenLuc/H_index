@@ -432,6 +432,7 @@ public class mainframe extends JFrame{
                 series.clear();
             }
             if (graph_window != null ){
+                //System.out.println(frame.getContentPane().getBackground().toString());
                 createGraph();
                 graph_window.add(graph_panel);
                 //
@@ -461,7 +462,15 @@ public class mainframe extends JFrame{
                         marker1.setPaint(new Color(154, 205, 50));
                         marker2.setPaint(new Color(154, 205, 50));
         
-                }
+                    }
+                    if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
+                        &&frame.getContentPane().getBackground().getBlue() == 180){
+                            marker.setPaint(new Color(218,112,214));
+                            marker1.setPaint(new Color(218,112,214));
+                            marker2.setPaint(new Color(218,112,214));
+            
+                        }
+                //[r=191,g=227,b=180
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
 
                     XYPlot plot =chart.getXYPlot();
@@ -532,8 +541,17 @@ public class mainframe extends JFrame{
                             marker2.setPaint(new Color(154, 205, 50));
             
                     }
+                    //r=191,g=227,b=180
+                    if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
+                    &&frame.getContentPane().getBackground().getBlue() == 180){
+                        marker.setPaint(new Color(218,112,214));
+                        marker1.setPaint(new Color(218,112,214));
+                        marker2.setPaint(new Color(218,112,214));
+        
+                    }
+                    //
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
-                
+                    
                     XYPlot plot =chart.getXYPlot();
                     plot.addRangeMarker(marker1);
                     plot.addDomainMarker(marker);
@@ -791,15 +809,22 @@ public class mainframe extends JFrame{
 
             }
             //rgb complement conversion algorithm for creator window
-            if (graph_window != null && colorEvent != "purple" ){
+            if (graph_window != null && marker != null && colorEvent != "purple" ){
                 marker.setPaint(rgb_complement_color());
                 marker1.setPaint(rgb_complement_color());
                 marker2.setPaint(rgb_complement_color());
             }
-            if (graph_window != null && colorEvent == "purple"){
+            if (graph_window != null && marker != null && colorEvent == "purple"){
                 marker.setPaint(new Color(154, 205, 50));
                 marker1.setPaint(new Color(154, 205, 50));
                 marker2.setPaint(new Color(154, 205, 50));
+
+            }
+            //240,255,240
+            if (graph_window != null && marker != null && colorEvent == "green"){
+                marker.setPaint(new Color(218,112,214));
+                marker1.setPaint(new Color(218,112,214));
+                marker2.setPaint(new Color(218,112,214));
 
             }
             rgb_complement(n);
