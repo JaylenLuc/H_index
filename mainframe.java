@@ -440,7 +440,7 @@ public class mainframe extends JFrame{
                     marker.setPaint(Color.GREEN);
                     marker1 = new ValueMarker(res);  // position is the value on the axis
                     marker1.setPaint(Color.GREEN);
-                    marker.setLabel(String.format("Articles with at least %d citations",res));
+                    marker.setLabel(String.format("Articles with at least\n %d citations",res));
                     marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
                     marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
                     marker1.setLabel(String.format("Articles with less than %d citations",res));
@@ -449,8 +449,8 @@ public class mainframe extends JFrame{
                     marker2 = new ValueMarker(res);  // position is the value on the axis
                     marker2.setPaint(Color.GREEN);
                     marker2.setLabel(String.format("First %d papers",res));
-                    marker2.setLabelAnchor(RectangleAnchor.BOTTOM_LEFT);
-                    marker2.setLabelTextAnchor(TextAnchor.TOP_LEFT);
+                    marker2.setLabelAnchor(RectangleAnchor.TOP_LEFT);
+                    marker2.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
 
                     XYPlot plot =chart.getXYPlot();
@@ -500,7 +500,7 @@ public class mainframe extends JFrame{
                 //marker.setLabel("Original Close (02:00)");
                 marker1 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
                 marker1.setPaint(Color.GREEN);
-                marker.setLabel(String.format("Papers with at least %s citations",houtput.getText()));
+                marker.setLabel(String.format("Papers with at least\n %s citations",houtput.getText()));
                 marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
                 marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
                 marker1.setLabel(String.format("Papers with less than %s citations",houtput.getText()));
@@ -509,8 +509,8 @@ public class mainframe extends JFrame{
                 marker2 = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
                 marker2.setPaint(Color.GREEN);
                 marker2.setLabel(String.format("First %s papers",houtput.getText()));
-                marker2.setLabelAnchor(RectangleAnchor.BOTTOM_LEFT);
-                marker2.setLabelTextAnchor(TextAnchor.TOP_LEFT);
+                marker2.setLabelAnchor(RectangleAnchor.TOP_LEFT);
+                marker2.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
                 //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
 
                 XYPlot plot =chart.getXYPlot();
