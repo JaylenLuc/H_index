@@ -981,24 +981,27 @@ public class mainframe extends JFrame{
 
             }
             //rgb complement conversion algorithm for creator window
-            if (graph_window != null && marker != null && colorEvent != "purple" ){
-                marker.setPaint(rgb_complement_color());
-                marker1.setPaint(rgb_complement_color());
-                marker2.setPaint(rgb_complement_color());
-            }
-            if (graph_window != null && marker != null && colorEvent == "purple"){
-                marker.setPaint(new Color(154, 205, 50));
-                marker1.setPaint(new Color(154, 205, 50));
-                marker2.setPaint(new Color(154, 205, 50));
+            if (marker != null){
+                if (graph_window != null && marker != null && colorEvent == "purple"){
+                    marker.setPaint(new Color(130, 200, 50));
+                    marker1.setPaint(new Color(130, 200, 50));
+                    marker2.setPaint(new Color(130, 200, 50));
 
-            }
-            //240,255,240
-            if (graph_window != null && marker != null && colorEvent == "green"){
-                marker.setPaint(new Color(218,112,214));
-                marker1.setPaint(new Color(218,112,214));
-                marker2.setPaint(new Color(218,112,214));
+                }
+                //240,255,240
+                else if (graph_window != null && marker != null && colorEvent == "green"){
+                    marker.setPaint(new Color(218,112,214));
+                    marker1.setPaint(new Color(218,112,214));
+                    marker2.setPaint(new Color(218,112,214));
 
+                }else{
+
+                    marker.setPaint(rgb_complement_color());
+                    marker1.setPaint(rgb_complement_color());
+                    marker2.setPaint(rgb_complement_color());
+                }
             }
+                
             if (graph_window != null){
 
                 nnn.set_colors(rgb_complement_color(),frame.getContentPane().getBackground());
@@ -1034,12 +1037,17 @@ public class mainframe extends JFrame{
 
 // h index alts
 //OPTIONS->
-//  1. make another jdialog and display all available alt scores for the data input
-//      a- have a button in mainframe to dispatch the window
+//  1******. make another jdialog and display all available alt scores for the data input
+//      a- ********have a button in mainframe to dispatch the window
 //          -"see further metrics and how your score comapres to other bibliometric indeces"
+
+
+
 //      b-have a drop down in the mainframe to dispatch the window
 //      
 //  2.make a jCOMBOBOX that is in teh mainframe and have a selection there 
+
+//JCOMBO boxes are good for selections that are mutually exclusive
 
 //add limitations tab
 // add h index info tab including the math, the set notation and the algorthitm i used
