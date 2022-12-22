@@ -10,7 +10,12 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;  
 import org.jfree.data.xy.XYSeries;  
 import org.jfree.data.xy.XYSeriesCollection;  
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.*;
+import javax.swing.SwingUtilities;
 import java.util.stream.*;
 import java.awt.geom.*;  
 import java.io.File;
@@ -42,6 +47,97 @@ import java.util.stream.*;
 //were swinging this cuz i dont wanna bother with JavaFx download
 
 public class mainframe extends JFrame{
+    
+    class GradientPanel extends JPanel {
+
+        public static final int VERT = 0; 
+        //if int is anything other than 1 , 2, 3 then its VERT
+        public static final int HOR = 1;
+        public static final int DIAG_DOWN = 2;
+        public static final int DIAG_UP = 3;
+
+        public Color color_start;
+        public Color color_end;
+        public int direction;
+
+        public GradientPanel(){
+            super();
+            this.color_start = Color.BLACK;
+            this.color_start = Color.WHITE;
+            this.direction = 1;
+        }
+
+        public GradientPanel(Color color1,Color color2, int dir){
+            super();
+
+            this.color_start = color1;
+            this.color_end = color2;
+            this.direction = dir;
+        }
+        
+        @Override
+        protected void paintComponent(Graphics g){
+            super.paintComponent(g);
+
+            Graphics2D graphics2d = (Graphics2D) g;
+            graphics2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+            // System.out.println(this.color_end);
+            // System.out.println(this.color_start);
+            GradientPaint gradientPaint;
+
+            if (direction == HOR){
+                gradientPaint = new GradientPaint(0, getHeight()/2, this.color_start, getWidth(), getHeight()/2,this.color_end);
+            }else if (direction == DIAG_DOWN){
+                
+                gradientPaint = new GradientPaint(0, getHeight(), this.color_start, getWidth(), 0,this.color_end);
+
+
+            }else if (direction == DIAG_UP){
+                gradientPaint = new GradientPaint(0, 0, this.color_start, getWidth(), getHeight(),this.color_end);
+            }else{
+                gradientPaint = new GradientPaint(0, 0, this.color_start,0, getHeight(),this.color_end);
+            }
+            graphics2d.setPaint(gradientPaint);
+            graphics2d.fillRect(0,0,getWidth(),getHeight());
+        }
+
+        public void set_colors(Color color1, Color color2){
+            this.color_end = color2;
+            this.color_start = color1;
+        }
+
+        public void set_dir(int x){
+            this.direction = x;
+        }
+
+        public int get_direction(){
+            return this.direction;
+        }
+
+        public Color get_color_start(){
+
+            return this.color_start;
+        }
+
+        public Color get_color_end(){
+
+            return this.color_end;
+        }
+
+        public String display_constants(){
+
+            return (String.format("VERT = %d\nHOR = %d\nDIAG_DOWN = %d, DIAG_UP = %d",
+            this.VERT,this.HOR,
+            this.DIAG_DOWN,this.DIAG_UP));
+
+        }
+
+
+
+
+
+    }
 
 //semi_utility - functional inner classes----------------------------------------------------------------------------------------------------------------
 
@@ -194,6 +290,8 @@ public class mainframe extends JFrame{
     public ValueMarker marker1;
     public ValueMarker marker;
     public ValueMarker marker2;
+    public GradientPanel nnn;
+    public JDialog notif;
     public mainframe(){
         graph_dataset.addSeries(series);
         //System.out.println(calculator.percentile);
@@ -250,6 +348,7 @@ public class mainframe extends JFrame{
         frame.setLocationRelativeTo(null);
 
     }
+    //returns the complement color for any specified j dialog 'x'
     private void rgb_complement(JDialog x){
         if (x != null){
             
@@ -265,6 +364,7 @@ public class mainframe extends JFrame{
             x.getContentPane().setBackground(new Color(r,g,b));
         }
     }
+    //returms the complement color for the main frame
     private Color rgb_complement_color(){
         //if (x != null){
             
@@ -290,7 +390,7 @@ public class mainframe extends JFrame{
     //     int b = temp.getBlue();
     //     Integer[] temparr = {r,g,b};
     //     ArrayList<Integer> color_array = new ArrayList<Integer>(Arrays.asList(temparr));
-    //     r = (Collections.max(color_array) + Collections.min(color_array) - r ) ;
+    //     r = (Collections.max(color_array) + Collections.min(color_array) - r )  ;
     //     b = (Collections.max(color_array) + Collections.min(color_array) - b) ;
     //     g = (Collections.max(color_array) + Collections.min(color_array) - g) ;
     //     return new Color(r,g,b);
@@ -387,8 +487,8 @@ public class mainframe extends JFrame{
         "Raw H-Index Graphed (discrete)",   
         "Research paper count", "Citations", graph_dataset);
         if (graph_panel == null){
-            graph_panel = new ChartPanel(chart,500,500,400,400,500,500,
-            true,true,true,true,false,true);
+            graph_panel = new ChartPanel(chart,500,500,500,500,500,500,
+            true,true,true,true,true,true);
             
         }else{
             graph_panel.setChart(chart);
@@ -437,7 +537,13 @@ public class mainframe extends JFrame{
                 //System.out.println(frame.getContentPane().getBackground().toString());
                 createGraph();
                 graph_window.add(graph_panel);
+                // JLabel ttt = new JLabel("Right-Click for addtional chart options");
+                // gbc.gridx = 0;
+                // gbc.gridy = -7;
+                // graph_window.add(ttt);
                 //
+
+
                 if (res != -1){
                     //System.out.println(res);
                     marker = new ValueMarker(res);  // position is the value on the axis
@@ -493,7 +599,9 @@ public class mainframe extends JFrame{
     // BUG :: value markers do not dissapear when the h index is 0 or 1. not substantially breaking but is not pleasing to the eye
     
     class graph_listener implements ActionListener {
+        private int counter = 0;
         public void actionPerformed(ActionEvent event) {
+            counter +=1 ;
             if (graph_window == null){
                 graph_window = new JDialog();
                 graph_window.setLayout(new GridBagLayout());
@@ -517,6 +625,49 @@ public class mainframe extends JFrame{
                 //graph_window.setContentPane(graph_);
                 //maybe set contentpane of grapj_window to Chart Panel which in this case is the graph_panel
                 //graph_window.setVisible(true);
+
+                //GRADIENT PANEL EXTENSION--------------------------------------------------------------------------
+                // public static final int VERT = 0;
+                // public static final int HOR = 1;
+                // public static final int DIAG_DOWN = 2;
+                // public static final int DIAG_UP = 3;
+
+                // public Color color_start, color_end;
+                // public int direction;
+
+                // public GradientPanel(){
+                //     super();
+                //     this.color_start = Color.BLACK;
+                //     this.color_start = Color.WHITE;
+                //     this.direction = 1;
+                // }
+
+                // public GradientPanel(Color color1,Color color2, int dir){
+                //     super();
+
+                //     this.color_start = color1;
+                //     this.color_start = color2;
+                //     this.direction = dir;
+                // }  
+                
+                notif = new JDialog();
+                notif.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                
+                notif.setSize(450,85);
+                notif.setResizable(false);
+                // System.out.println(rgb_complement_color());
+                // System.out.println(frame.getContentPane().getBackground());
+                nnn = new GradientPanel(rgb_complement_color(),
+                frame.getContentPane().getBackground()
+                ,2);
+                JLabel ttt = new JLabel("Right click on the chart for additonal features or to zoom in/out.");
+                nnn.add(ttt);
+                //notif.setContentPane(nnn);
+                
+                notif.setContentPane(nnn);
+                
+                
+                //----------------------------------------------------------------------------------------------------
                 if (!houtput.getText().isEmpty() ){
                     //System.out.println(houtput.getText());
                     marker = new ValueMarker(Double.valueOf(houtput.getText()));  // position is the value on the axis
@@ -572,6 +723,7 @@ public class mainframe extends JFrame{
             }
             
             graph_window.setVisible(true);
+            if (counter < 2){notif.setVisible(true);}
             
 
         }
@@ -854,6 +1006,11 @@ public class mainframe extends JFrame{
                 marker2.setPaint(new Color(218,112,214));
 
             }
+            if (graph_window != null){
+
+                nnn.set_colors(rgb_complement_color(),frame.getContentPane().getBackground());
+                notif.setContentPane(nnn);
+            }
             //all new windows can be converted accordingly using this function. checks for null
             rgb_complement(n);
             rgb_complement(graph_window);
@@ -883,3 +1040,4 @@ public class mainframe extends JFrame{
 //add new colors
 //add limitations and information tab
 //maybe add a normalization thingy with jcombo box and maybe maybe graph normalized citations???
+// h index alts
