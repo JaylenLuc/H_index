@@ -1037,7 +1037,16 @@ public class mainframe extends JFrame{
 
 
 //TODO::
-//add new colors
-//add limitations and information tab
-//maybe add a normalization thingy with jcombo box and maybe maybe graph normalized citations???
+//add new colors *** ONGOING
+
 // h index alts
+//OPTIONS->
+//  1. make another jdialog and display all available alt scores for the data input
+//      a- have a button in mainframe to dispatch the window
+//          -"see further metrics and how your score comapres to other bibliometric indeces"
+//      b-have a drop down in the mainframe to dispatch the window
+//      
+//  2.make a jCOMBOBOX that is in teh mainframe and have a selection there 
+
+//add limitations and information tabm 
+//maybe add a normalization thingy with jcombo box and maybe maybe graph normalized citations???
