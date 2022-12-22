@@ -300,7 +300,7 @@ public class mainframe extends JFrame{
         frame.setContentPane(createIO());
         //Box box1 = Box.createVerticalBox();
         //box1.add(frame.getContentPane());
-        frame.getContentPane().setBackground(new Color(170, 143, 121));
+        frame.getContentPane().setBackground(new Color(196,178,162));
         //gbc.insets = new Insets(5,5,5,5);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -967,13 +967,13 @@ public class mainframe extends JFrame{
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "yellow":
-
-                    frame.getContentPane().setBackground(new Color(253, 253, 150));
+                    
+                    frame.getContentPane().setBackground(new Color(255, 244, 189));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "brown":
-                    frame.getContentPane().setBackground(new Color(170, 143, 121));
+                    frame.getContentPane().setBackground(new Color(196,178,162));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
@@ -981,15 +981,15 @@ public class mainframe extends JFrame{
 
             }
             //rgb complement conversion algorithm for creator window
-            if (marker != null){
-                if (graph_window != null && marker != null && colorEvent == "purple"){
+            if (marker != null && graph_window != null){
+                if (colorEvent == "purple"){
                     marker.setPaint(new Color(130, 200, 50));
                     marker1.setPaint(new Color(130, 200, 50));
                     marker2.setPaint(new Color(130, 200, 50));
 
                 }
                 //240,255,240
-                else if (graph_window != null && marker != null && colorEvent == "green"){
+                else if (colorEvent == "green"){
                     marker.setPaint(new Color(218,112,214));
                     marker1.setPaint(new Color(218,112,214));
                     marker2.setPaint(new Color(218,112,214));
