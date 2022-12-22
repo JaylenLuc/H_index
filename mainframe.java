@@ -29,13 +29,6 @@ import org.jfree.ui.TextAnchor;
 import java.awt.*;  
 import java.awt.event.*;  
 import java.awt.image.*;
-//MOST IMPORTANT LAYOUT FEATURES: gridbaglayout, gridbagconstraints, insets
-//POSSIBLE FEATURES THEREAFTER:
-//questions tab that includes common questions in subtabs that open another tab
-//h index limitations tab
-//calculate other index variants or similar indexes
-//normalization based on field
-//graph that graphs all the points
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -1048,5 +1041,8 @@ public class mainframe extends JFrame{
 //      
 //  2.make a jCOMBOBOX that is in teh mainframe and have a selection there 
 
-//add limitations and information tabm 
+//add limitations tab
+// add h index info tab including the math, the set notation and the algorthitm i used
+// add tab having a breif description of all other author level bibliometric indices used in the h index alt j dialogue
+
 //maybe add a normalization thingy with jcombo box and maybe maybe graph normalized citations???
