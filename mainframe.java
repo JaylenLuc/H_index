@@ -545,10 +545,10 @@ public class mainframe extends JFrame{
                     marker1 = new ValueMarker(res);  // position is the value on the axis
                     marker1.setPaint(rgb_complement_color());
                     marker1.setStroke(new BasicStroke(1.5f));
-                    marker.setLabel(String.format("Articles with at least\n %d citations",res));
+                    marker.setLabel(String.format("Papers with at least\n %d citations",res));
                     marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
                     marker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
-                    marker1.setLabel(String.format("Articles with less than %d citations",res));
+                    marker1.setLabel(String.format("Papers with less than %d citations",res));
                     marker1.setLabelAnchor(RectangleAnchor.BOTTOM_RIGHT);
                     marker1.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
                     marker2 = new ValueMarker(res);  // position is the value on the axis
@@ -560,18 +560,42 @@ public class mainframe extends JFrame{
                     //r=253,g=253,b=150
                     if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
                     &&frame.getContentPane().getBackground().getBlue() == 206){
-                        marker.setPaint(new Color(154, 205, 50));
-                        marker1.setPaint(new Color(154, 205, 50));
-                        marker2.setPaint(new Color(154, 205, 50));
+                        marker.setPaint(new Color(130, 180, 70));
+                        marker1.setPaint(new Color(130, 180, 70));
+                        marker2.setPaint(new Color(130, 180, 70));
         
                     }
-                    if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
+                    else if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
                         &&frame.getContentPane().getBackground().getBlue() == 180){
-                            marker.setPaint(new Color(218,112,214));
-                            marker1.setPaint(new Color(218,112,214));
-                            marker2.setPaint(new Color(218,112,214));
+                            marker.setPaint(new Color(218,112,234));
+                            marker1.setPaint(new Color(218,112,234));
+                            marker2.setPaint(new Color(218,112,234));
             
-                        }
+                    }
+                    else if (frame.getContentPane().getBackground().getRed() == 196 &&frame.getContentPane().getBackground().getGreen() == 178 
+                    &&frame.getContentPane().getBackground().getBlue() == 162){
+                        //145,162,176
+                        marker.setPaint(new Color(145,162,176));
+                        marker1.setPaint(new Color(145,162,176));
+                        marker2.setPaint(new Color(145,162,176));
+                    }
+                    //blue
+                    //171, 215, 235
+                    else if (frame.getContentPane().getBackground().getRed() == 171 &&frame.getContentPane().getBackground().getGreen() == 215 
+                    &&frame.getContentPane().getBackground().getBlue() == 235){
+                        //235,191,171
+                        marker.setPaint(new Color(255,191,181));
+                        marker1.setPaint(new Color(255,191,181));
+                        marker2.setPaint(new Color(255,191,181));
+                    }
+                    else if (frame.getContentPane().getBackground().getRed() == 255 &&frame.getContentPane().getBackground().getGreen() == 244 
+                    &&frame.getContentPane().getBackground().getBlue() == 189){
+                        //177,156,217
+                        marker.setPaint(new Color(177,156,217));
+                        marker1.setPaint(new Color(177,156,217));
+                        marker2.setPaint(new Color(177,156,217));
+    
+                    }
                 //[r=191,g=227,b=180
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
 
@@ -588,8 +612,9 @@ public class mainframe extends JFrame{
         }
     }
 
-    // BUG :: fix the label alignment issue
-    // BUG :: value markers do not dissapear when the h index is 0 or 1. not substantially breaking but is not pleasing to the eye
+    // BUG:: fix the label alignment issue
+    //  -sort of fixed 
+    // BUG:: value markers do not dissapear when the h index is 0 or 1. not substantially breaking but is not pleasing to the eye
     
     class graph_listener implements ActionListener {
         private int counter = 0;
@@ -687,19 +712,46 @@ public class mainframe extends JFrame{
                     //r=189,g=182,b=206
                     if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
                         &&frame.getContentPane().getBackground().getBlue() == 206){
-                            marker.setPaint(new Color(154, 205, 50));
-                            marker1.setPaint(new Color(154, 205, 50));
-                            marker2.setPaint(new Color(154, 205, 50));
+                            marker.setPaint(new Color(130, 180, 70));
+                            marker1.setPaint(new Color(130, 180, 70));
+                            marker2.setPaint(new Color(130, 180, 70));
             
                     }
                     //r=191,g=227,b=180
-                    if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
+                    else if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
                     &&frame.getContentPane().getBackground().getBlue() == 180){
-                        marker.setPaint(new Color(218,112,214));
-                        marker1.setPaint(new Color(218,112,214));
-                        marker2.setPaint(new Color(218,112,214));
+                        marker.setPaint(new Color(218,112,234));
+                        marker1.setPaint(new Color(218,112,234));
+                        marker2.setPaint(new Color(218,112,234));
         
                     }
+                    //196,178,162
+                    else if (frame.getContentPane().getBackground().getRed() == 196 &&frame.getContentPane().getBackground().getGreen() == 178 
+                    &&frame.getContentPane().getBackground().getBlue() == 162){
+                        //145,162,176
+                        marker.setPaint(new Color(145,162,176));
+                        marker1.setPaint(new Color(145,162,176));
+                        marker2.setPaint(new Color(145,162,176));
+                    }
+                    //blue
+                    //171, 215, 235
+                    else if (frame.getContentPane().getBackground().getRed() == 171 &&frame.getContentPane().getBackground().getGreen() == 215 
+                    &&frame.getContentPane().getBackground().getBlue() == 235){
+                        //235,191,171
+                        marker.setPaint(new Color(255,191,181));
+                        marker1.setPaint(new Color(255,191,181));
+                        marker2.setPaint(new Color(255,191,181));
+                    }
+                    //255, 244, 189
+                    else if (frame.getContentPane().getBackground().getRed() == 255 &&frame.getContentPane().getBackground().getGreen() == 244 
+                    &&frame.getContentPane().getBackground().getBlue() == 189){
+                        //177,156,217
+                        marker.setPaint(new Color(177,156,217));
+                        marker1.setPaint(new Color(177,156,217));
+                        marker2.setPaint(new Color(177,156,217));
+    
+                    }
+                    
                     //
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
                     
@@ -935,9 +987,11 @@ public class mainframe extends JFrame{
                     break;
 
                 case "blue":
+                    
                     frame.getContentPane().setBackground(new Color(171, 215, 235));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    //System.out.println(rgb_complement_color());
                     break;
 
                 case "white":
@@ -973,28 +1027,53 @@ public class mainframe extends JFrame{
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "brown":
+                    
                     frame.getContentPane().setBackground(new Color(196,178,162));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    //System.out.println(rgb_complement_color());
                     break;
 
 
             }
+            //177,156,217
             //rgb complement conversion algorithm for creator window
             if (marker != null && graph_window != null){
                 if (colorEvent == "purple"){
-                    marker.setPaint(new Color(130, 200, 50));
-                    marker1.setPaint(new Color(130, 200, 50));
-                    marker2.setPaint(new Color(130, 200, 50));
+                    marker.setPaint(new Color(130, 180, 70));
+                    marker1.setPaint(new Color(130, 180, 70));
+                    marker2.setPaint(new Color(130, 180, 70));
 
                 }
                 //240,255,240
                 else if (colorEvent == "green"){
-                    marker.setPaint(new Color(218,112,214));
-                    marker1.setPaint(new Color(218,112,214));
-                    marker2.setPaint(new Color(218,112,214));
+                    marker.setPaint(new Color(218,112,234));
+                    marker1.setPaint(new Color(218,112,234));
+                    marker2.setPaint(new Color(218,112,234));
 
-                }else{
+                }
+                else if (colorEvent == "brown"){
+                    //145,162,176
+                    marker.setPaint(new Color(145,162,176));
+                    marker1.setPaint(new Color(145,162,176));
+                    marker2.setPaint(new Color(145,162,176));
+                }
+                //blue
+                else if (colorEvent == "blue"){
+                    //235,191,171
+                    marker.setPaint(new Color(255,191,181));
+                    marker1.setPaint(new Color(255,191,181));
+                    marker2.setPaint(new Color(255,191,181));
+                }
+                //brown
+                else if (colorEvent == "yellow"){
+                    //177,156,217
+                    marker.setPaint(new Color(177,156,217));
+                    marker1.setPaint(new Color(177,156,217));
+                    marker2.setPaint(new Color(177,156,217));
+
+                }
+                else{
 
                     marker.setPaint(rgb_complement_color());
                     marker1.setPaint(rgb_complement_color());
