@@ -261,6 +261,13 @@ public class mainframe extends JFrame{
                 return d;
             }
         }
+        public static long i10_bomb(){
+            try{
+                return Stream.of(h_nums).filter(i -> i >= 10).collect(Collectors.counting());
+            }catch(Exception e){
+                return -1;
+            }
+        }
     }
     
 //semi_utility - functional inner classes END----------------------------------------------------------------------------------------------------------------
@@ -550,6 +557,9 @@ public class mainframe extends JFrame{
                 more_panel.add(i10field, gbc);
 
             }
+            if (!houtput.getText().isBlank()){
+                i10field.setText(String.valueOf(calculator.i10_bomb()));
+            }
 
 
             more_window.setVisible(true);
@@ -564,6 +574,7 @@ public class mainframe extends JFrame{
             //System.out.println(calculator.get(1));
 
             int res = calculator.h_bomb(textArea.getText()); //popualtes the public static variable : h_nums
+            long i_res = calculator.i10_bomb();
             double resperc = calculator.h_percent(res);
             if (res != -1 && !textArea.getText().contains("Example:")){
                 houtput.setText(String.valueOf(res));
@@ -654,6 +665,11 @@ public class mainframe extends JFrame{
                 }
                 
                 //graph_window.setVisible(true);
+            }
+
+            if (more_window != null && i_res != -1){
+                i10field.setText(String.valueOf(i_res));
+
             }
            
 
@@ -991,6 +1007,7 @@ public class mainframe extends JFrame{
             }else{
                 houtput.setText("");
                 hpercout.setText("");
+                if (i10field != null){i10field.setText("");}
                 series.clear();
 
                 
@@ -1025,7 +1042,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(242, 177, 149));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "green":
@@ -1034,7 +1051,7 @@ public class mainframe extends JFrame{
 
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "blue":
@@ -1042,7 +1059,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(171, 215, 235));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     //System.out.println(rgb_complement_color());
                     break;
 
@@ -1050,7 +1067,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(Color.WHITE);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "grey":
@@ -1058,7 +1075,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(defaultcolor);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     //System.out.println(defaultcolor);
                     break;
                 case "purple":
@@ -1066,7 +1083,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(189, 182, 206));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 //R:253, G:217, B:209
                 case "pink":
@@ -1074,21 +1091,21 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(253, 217, 209));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "yellow":
                     
                     frame.getContentPane().setBackground(new Color(255, 244, 189));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null) i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "brown":
                     
                     frame.getContentPane().setBackground(new Color(196,178,162));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     //System.out.println(rgb_complement_color());
                     break;
 
