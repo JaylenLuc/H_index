@@ -285,6 +285,11 @@ public class mainframe extends JFrame{
     public ValueMarker marker2;
     public GradientPanel nnn;
     public JDialog notif;
+    public JDialog more_window;
+    public GradientPanel more_panel;
+
+    public JTextField i10field;
+    public JLabel i10Label;
     public mainframe(){
         graph_dataset.addSeries(series);
         //System.out.println(calculator.percentile);
@@ -333,6 +338,12 @@ public class mainframe extends JFrame{
         gbc.gridy = 5;
         hpercout.setEditable(false);
         panel.add(hpercent, gbc);
+        gbc.insets = new Insets(10,10,10,10);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        JButton more_button = new JButton("Click to see further metrics and other bibliometric indices");
+        more_button.addActionListener(new more_listener());
+        panel.add(more_button,gbc);
 
 
         //frame.add(houtput);
@@ -499,12 +510,49 @@ public class mainframe extends JFrame{
 
 
 
+
     
 	//ACTION LISTENERS----------------------------------------------------------------------------------------------------------------
 
     class exit_listener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
+
+    class more_listener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            if (more_window == null){
+                more_window = new JDialog();
+                more_window.setDefaultCloseOperation(HIDE_ON_CLOSE);
+                more_window.setTitle("More Bibliometric Indices");
+                more_window.setSize(600,600);
+                more_panel = new GradientPanel(frame.getContentPane().getBackground(), rgb_complement_color(), 3);
+
+                more_window.setContentPane(more_panel);
+
+                i10Label = new JLabel("i10 Index: ");
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.insets = new Insets(5,5,5,5);
+
+
+                
+                more_panel.add(i10Label, gbc);
+
+                i10field = new JTextField(4);
+
+                i10field.setEditable(false);
+
+                i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+
+                more_panel.add(i10field, gbc);
+
+            }
+
+
+            more_window.setVisible(true);
         }
     }
 
@@ -607,7 +655,8 @@ public class mainframe extends JFrame{
                 
                 //graph_window.setVisible(true);
             }
-           // prev_ = res;
+           
+
             
         }
     }
@@ -976,6 +1025,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(242, 177, 149));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "green":
@@ -984,6 +1034,7 @@ public class mainframe extends JFrame{
 
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "blue":
@@ -991,6 +1042,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(171, 215, 235));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     //System.out.println(rgb_complement_color());
                     break;
 
@@ -998,6 +1050,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(Color.WHITE);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
 
                 case "grey":
@@ -1005,6 +1058,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(defaultcolor);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     //System.out.println(defaultcolor);
                     break;
                 case "purple":
@@ -1012,6 +1066,7 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(189, 182, 206));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 //R:253, G:217, B:209
                 case "pink":
@@ -1019,18 +1074,21 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(253, 217, 209));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "yellow":
                     
                     frame.getContentPane().setBackground(new Color(255, 244, 189));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     break;
                 case "brown":
                     
                     frame.getContentPane().setBackground(new Color(196,178,162));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     //System.out.println(rgb_complement_color());
                     break;
 
@@ -1086,6 +1144,10 @@ public class mainframe extends JFrame{
                 nnn.set_colors(rgb_complement_color(),frame.getContentPane().getBackground());
                 notif.setContentPane(nnn);
             }
+            if (more_window != null){
+                more_panel.set_colors(frame.getContentPane().getBackground(),rgb_complement_color());
+                more_window.setContentPane(more_panel);
+            }
             //all new windows can be converted accordingly using this function. checks for null
             rgb_complement(n);
             rgb_complement(graph_window);
@@ -1128,8 +1190,8 @@ public class mainframe extends JFrame{
 
 //JCOMBO boxes are good for selections that are mutually exclusive
 
-//add limitations tab
 // add h index info tab including the math, the set notation and the algorthitm i used
+//add limitations tab
 // add tab having a breif description of all other author level bibliometric indices used in the h index alt j dialogue
 
 //maybe add a normalization thingy with jcombo box and maybe maybe graph normalized citations???
