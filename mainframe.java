@@ -457,9 +457,10 @@ public class mainframe extends JFrame{
         JMenuItem purple = new JMenuItem("purple");
         JMenuItem pink = new JMenuItem("pink");      
         JMenuItem brown = new JMenuItem("brown");    
-        JMenuItem graph = new JMenuItem("Graph Visualizer");
+        JMenu graph_menu = new JMenu("Graph Visualizers");
+        JMenuItem h_graph = new JMenuItem("H-Index Graph"); 
 
-        graph.addActionListener(new graph_listener());
+        h_graph.addActionListener(new graph_listener());
         pink.addActionListener(new color_listener());
         purple.addActionListener(new color_listener());
         brown.addActionListener(new color_listener());
@@ -469,6 +470,7 @@ public class mainframe extends JFrame{
         green.addActionListener(new color_listener());
         blue.addActionListener(new color_listener());
         white.addActionListener(new color_listener());
+        graph_menu.add(h_graph);
         color.add(red); color.add(green); color.add(blue); 
         color.add(white); color.add(grey); color.add(yellow);
         color.add(purple); color.add(pink); color.add(brown);
@@ -479,7 +481,7 @@ public class mainframe extends JFrame{
         setting.add(creator);
         menubar.add(setting);
         menubar.add(color);
-        menubar.add(graph);
+        menubar.add(graph_menu);
         
         return menubar;
 
@@ -1317,7 +1319,6 @@ public class mainframe extends JFrame{
 //          -"see further metrics and how your score comapres to other bibliometric indices"
 
 
-
 //      b-have a drop down in the mainframe to dispatch the window
 //      
 //  2.make a jCOMBOBOX that is in teh mainframe and have a selection there 
@@ -1327,5 +1328,7 @@ public class mainframe extends JFrame{
 // add h index info tab including the math, the set notation and the algorthitm i used
 //add limitations tab
 // add tab having a breif description of all other author level bibliometric indices used in the h index alt j dialogue
+
+//graph all graphable indices
 
 //maybe add a normalization thingy with jcombo box and maybe maybe graph normalized citations???
