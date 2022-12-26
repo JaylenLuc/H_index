@@ -1,6 +1,6 @@
 package H_index_calc;
 
-
+import java.lang.Math;
 import org.jfree.chart.ChartFactory;  
 import org.jfree.chart.ChartPanel;  
 import org.jfree.chart.JFreeChart;  
@@ -138,6 +138,9 @@ public class mainframe extends JFrame{
         public static Integer[] h_nums;
         public static Map<Integer, Double> percentile;
 
+        public static int sum = 0;
+
+        //public static int total_cites = 0;
         private  static void populateMap(){
             if (percentile != null){
                 return ;
@@ -268,6 +271,29 @@ public class mainframe extends JFrame{
                 return -1;
             }
         }
+
+        public static int g_bomb(){
+            //g^2 <= Σ (i <= g)  ci
+
+            try{
+                sum = 0;
+                for (int i = 0; i < h_nums.length; i++){
+                    sum+= h_nums[i];
+                    if (Math.pow(i+1,2) > sum){
+                        return i;
+                    }
+                }
+                return h_nums.length;
+            }catch(Exception e){
+                return -1;
+            }
+        }
+
+        public static int total_citations(){
+
+            return Stream.of(h_nums).collect(Collectors.summingInt(Integer::intValue));
+
+        }
     }
     
 //semi_utility - functional inner classes END----------------------------------------------------------------------------------------------------------------
@@ -297,6 +323,13 @@ public class mainframe extends JFrame{
 
     public JTextField i10field;
     public JLabel i10Label;
+
+    public JTextField gfield;
+    public JLabel gLabel;
+
+    public JTextField sumfield;
+    public JLabel sumLabel;
+
     public mainframe(){
         graph_dataset.addSeries(series);
         //System.out.println(calculator.percentile);
@@ -529,6 +562,7 @@ public class mainframe extends JFrame{
 
 
     class more_listener implements ActionListener {
+        //g^2 <= Σ ci
         public void actionPerformed(ActionEvent event) {
             if (more_window == null){
                 more_window = new JDialog();
@@ -536,7 +570,7 @@ public class mainframe extends JFrame{
                 more_window.setTitle("More Bibliometric Indices");
                 more_window.setSize(600,600);
                 more_panel = new GradientPanel(frame.getContentPane().getBackground(), rgb_complement_color(), 3);
-
+               
                 more_window.setContentPane(more_panel);
 
                 i10Label = new JLabel("i10 Index: ");
@@ -555,10 +589,35 @@ public class mainframe extends JFrame{
                 i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
 
                 more_panel.add(i10field, gbc);
+                gbc.gridx = 0;
+                gbc.gridy = 3;
+                gbc.insets = new Insets(5,5,5,5);
+
+                gLabel = new JLabel("G-Index:");
+                more_panel.add(gLabel,gbc);
+                gfield = new JTextField(4);
+
+                gfield.setEditable(false);
+
+                gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+
+                more_panel.add(gfield,gbc);
+
+                sumLabel = new JLabel("Total Citations:");
+                more_panel.add(sumLabel,gbc);
+                sumfield = new JTextField(4);
+
+                sumfield.setEditable(false);
+
+                sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+
+                more_panel.add(sumfield,gbc);
 
             }
             if (!houtput.getText().isBlank()){
                 i10field.setText(String.valueOf(calculator.i10_bomb()));
+                gfield.setText(String.valueOf(calculator.g_bomb()));
+                sumfield.setText(String.valueOf(calculator.total_citations()));
             }
 
 
@@ -575,6 +634,7 @@ public class mainframe extends JFrame{
 
             int res = calculator.h_bomb(textArea.getText()); //popualtes the public static variable : h_nums
             long i_res = calculator.i10_bomb();
+            int g_res = calculator.g_bomb();
             double resperc = calculator.h_percent(res);
             if (res != -1 && !textArea.getText().contains("Example:")){
                 houtput.setText(String.valueOf(res));
@@ -667,8 +727,10 @@ public class mainframe extends JFrame{
                 //graph_window.setVisible(true);
             }
 
-            if (more_window != null && i_res != -1){
+            if (more_window != null && i_res != -1 && g_res != -1){
                 i10field.setText(String.valueOf(i_res));
+                gfield.setText(String.valueOf(g_res));
+                sumfield.setText(String.valueOf(calculator.total_citations()));
 
             }
            
@@ -1007,7 +1069,11 @@ public class mainframe extends JFrame{
             }else{
                 houtput.setText("");
                 hpercout.setText("");
-                if (i10field != null){i10field.setText("");}
+                if (i10field != null){
+                    i10field.setText("");
+                    gfield.setText("");
+                    sumfield.setText("");
+                }
                 series.clear();
 
                 
@@ -1042,7 +1108,12 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(242, 177, 149));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     break;
 
                 case "green":
@@ -1051,7 +1122,13 @@ public class mainframe extends JFrame{
 
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
+
                     break;
 
                 case "blue":
@@ -1059,7 +1136,12 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(171, 215, 235));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     //System.out.println(rgb_complement_color());
                     break;
 
@@ -1067,7 +1149,12 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(Color.WHITE);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     break;
 
                 case "grey":
@@ -1075,7 +1162,12 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(defaultcolor);
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     //System.out.println(defaultcolor);
                     break;
                 case "purple":
@@ -1083,7 +1175,12 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(189, 182, 206));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     break;
                 //R:253, G:217, B:209
                 case "pink":
@@ -1091,21 +1188,36 @@ public class mainframe extends JFrame{
                     frame.getContentPane().setBackground(new Color(253, 217, 209));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     break;
                 case "yellow":
                     
                     frame.getContentPane().setBackground(new Color(255, 244, 189));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null) i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     break;
                 case "brown":
                     
                     frame.getContentPane().setBackground(new Color(196,178,162));
                     houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    if (i10field != null)i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    if (i10field != null){
+                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    }
+
                     //System.out.println(rgb_complement_color());
                     break;
 
@@ -1197,7 +1309,7 @@ public class mainframe extends JFrame{
 //OPTIONS->
 //  1******. make another jdialog and display all available alt scores for the data input
 //      a- ********have a button in mainframe to dispatch the window
-//          -"see further metrics and how your score comapres to other bibliometric indeces"
+//          -"see further metrics and how your score comapres to other bibliometric indices"
 
 
 
