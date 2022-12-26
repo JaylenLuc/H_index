@@ -528,7 +528,7 @@ public class mainframe extends JFrame{
         //appends the new chart to the graph_panel
         //it first adds it to the chartpanel
         chart = ChartFactory.createScatterPlot(  
-        "Raw H-Index Graphed (discrete)",   
+        "Raw H-Index Graph (discrete)",   
         "Research paper count", "Citations", graph_dataset);
         if (graph_panel == null){
             graph_panel = new ChartPanel(chart,500,500,500,500,500,500,
