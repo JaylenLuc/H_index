@@ -614,6 +614,11 @@ public class mainframe extends JFrame{
                 more_panel.add(sumfield,gbc);
 
             }
+            if (frame.getContentPane().getBackground().equals(new Color(255,255,255))){
+                sumfield.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
+                gfield.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
+                i10field.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
+            }
             if (!houtput.getText().isBlank()){
                 i10field.setText(String.valueOf(calculator.i10_bomb()));
                 gfield.setText(String.valueOf(calculator.g_bomb()));
@@ -1147,12 +1152,12 @@ public class mainframe extends JFrame{
 
                 case "white":
                     frame.getContentPane().setBackground(Color.WHITE);
-                    houtput.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                    hpercout.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                    houtput.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
+                    hpercout.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
                     if (i10field != null){
-                        i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                        gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
-                        sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        i10field.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
+                        gfield.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
+                        sumfield.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
                     }
 
                     break;
