@@ -137,8 +137,8 @@ public class mainframe extends JFrame{
     class calculator {
         public static Integer[] h_nums;
         public static Map<Integer, Double> percentile;
-
-        public static int sum = 0;
+        public static int tot_cites = 0;
+        public static int h_number = -1;
 
         //public static int total_cites = 0;
         private  static void populateMap(){
@@ -207,7 +207,7 @@ public class mainframe extends JFrame{
             //System.out.println("fsdafdfdsa");
             try{
     
-                h_nums = Stream.of(ind.split(",")).filter(i -> i.length() < 9 && !i.equals(""))
+                h_nums = Stream.of(ind.split(",")).filter(i -> i.length() < 7 && !i.equals(""))
                 .map(Integer::valueOf).sorted(Comparator.reverseOrder())
                 .toArray(size -> new Integer[size]);
                 //  for (int i : h_nums){
@@ -221,10 +221,14 @@ public class mainframe extends JFrame{
             int i;
             for (i = 0; i < h_nums.length; i++){
                 if (h_nums[i]  < i+1){
+
+
+                    h_number = i;
                     return i;
                 }
                 
             }
+            h_number = i;
             return i;
             
         }
@@ -276,6 +280,7 @@ public class mainframe extends JFrame{
             //g^2 <= Σ (i <= g)  ci
 
             try{
+                int sum;
                 sum = 0;
                 for (int i = 0; i < h_nums.length; i++){
                     sum+= h_nums[i];
@@ -291,7 +296,26 @@ public class mainframe extends JFrame{
 
         public static int total_citations(){
 
-            return Stream.of(h_nums).collect(Collectors.summingInt(Integer::intValue));
+            tot_cites = Stream.of(h_nums).collect(Collectors.summingInt(Integer::intValue));
+            return tot_cites;
+
+        }
+
+        public static double e_bomb()
+        {
+            //Σ (j = 1) cit j - h^2
+            //no fukcing oracle to test this shit on
+            double e_num = 0;
+            //h = 5
+            for (int i = 0; i < h_number; i++){
+                e_num += h_nums[i];
+            }
+
+            e_num = e_num - Math.pow(h_number,2);
+
+            return e_num;
+
+
 
         }
     }
@@ -329,6 +353,9 @@ public class mainframe extends JFrame{
 
     public JTextField sumfield;
     public JLabel sumLabel;
+
+    public JTextField e_field;
+    public JLabel e_Label;
 
     public mainframe(){
         graph_dataset.addSeries(series);
@@ -615,6 +642,21 @@ public class mainframe extends JFrame{
 
                 more_panel.add(sumfield,gbc);
 
+
+                e_Label = new JLabel("e-Index:");
+                more_panel.add(e_Label,gbc);
+                e_field = new JTextField(4);
+
+                e_field.setEditable(false);
+
+                e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+
+                more_panel.add(e_field,gbc);
+
+
+
+
+
             }
             if (frame.getContentPane().getBackground().equals(new Color(255,255,255))){
                 sumfield.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
@@ -625,6 +667,7 @@ public class mainframe extends JFrame{
                 i10field.setText(String.valueOf(calculator.i10_bomb()));
                 gfield.setText(String.valueOf(calculator.g_bomb()));
                 sumfield.setText(String.valueOf(calculator.total_citations()));
+                e_field.setText(String.valueOf(calculator.e_bomb()));
             }
 
 
@@ -640,9 +683,15 @@ public class mainframe extends JFrame{
             //System.out.println(calculator.get(1));
 
             int res = calculator.h_bomb(textArea.getText()); //popualtes the public static variable : h_nums
+
             long i_res = calculator.i10_bomb();
+
             int g_res = calculator.g_bomb();
+
+            double e_res = calculator.e_bomb();
+
             double resperc = calculator.h_percent(res);
+
             if (res != -1 && !textArea.getText().contains("Example:")){
                 houtput.setText(String.valueOf(res));
                 hpercout.setText(String.valueOf(resperc));
@@ -734,10 +783,11 @@ public class mainframe extends JFrame{
                 //graph_window.setVisible(true);
             }
 
-            if (more_window != null && i_res != -1 && g_res != -1){
+            if (more_window != null && i_res != -1 && g_res != -1 && e_res != -1){
                 i10field.setText(String.valueOf(i_res));
                 gfield.setText(String.valueOf(g_res));
                 sumfield.setText(String.valueOf(calculator.total_citations()));
+                e_field.setText(String.valueOf(e_res));
 
             }
            
@@ -1039,7 +1089,8 @@ public class mainframe extends JFrame{
                     }else{
                         break;
                     }
-                    if (count > 7){
+                    //0000,000
+                    if (count > 5){
                         good = false;
                         this.keyTyped(event); // ignore event
                     }
@@ -1080,6 +1131,7 @@ public class mainframe extends JFrame{
                     i10field.setText("");
                     gfield.setText("");
                     sumfield.setText("");
+                    e_field.setText("");
                 }
                 series.clear();
 
@@ -1119,6 +1171,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
                     break;
@@ -1133,6 +1186,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
 
@@ -1147,6 +1201,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
                     //System.out.println(rgb_complement_color());
@@ -1160,6 +1215,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(new Color(	90, 90, 90), 2));
                     }
 
                     break;
@@ -1173,6 +1229,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
                     //System.out.println(defaultcolor);
@@ -1186,6 +1243,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
                     break;
@@ -1199,6 +1257,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
                     break;
@@ -1211,6 +1270,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
                     break;
@@ -1223,6 +1283,7 @@ public class mainframe extends JFrame{
                         i10field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         gfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                         sumfield.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
+                        e_field.setBorder(BorderFactory.createLineBorder(rgb_complement_color(), 2));
                     }
 
                     //System.out.println(rgb_complement_color());
@@ -1313,12 +1374,21 @@ public class mainframe extends JFrame{
 //add new colors *** ONGOING
 
 // h index alts
-//OPTIONS->
+
 //  1******. make another jdialog and display all available alt scores for the data input
-//      a- ********have a button in mainframe to dispatch the window
+
+// graph the indexes
+
+
+
+
+
+
+
+
+// DEFUNCT--------------------------------------------------------------------------------------------------------------
+//a- ********have a button in mainframe to dispatch the window
 //          -"see further metrics and how your score comapres to other bibliometric indices"
-
-
 //      b-have a drop down in the mainframe to dispatch the window
 //      
 //  2.make a jCOMBOBOX that is in teh mainframe and have a selection there 
