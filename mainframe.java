@@ -303,6 +303,8 @@ public class mainframe extends JFrame{
 
         public static double e_bomb()
         {
+            //1,2,3,4,5
+            //0,1,2,3,4
             //Σ (j = 1) cit j - h^2
             //no fukcing oracle to test this shit on
             double e_num = 0;
@@ -331,12 +333,23 @@ public class mainframe extends JFrame{
     private JTextField houtput;
     private JTextField hpercout;
     private GridBagConstraints gbc;
+
     public JDialog graph_window;
     public ChartPanel graph_panel;
+
+    public JDialog g_graph_window;
+    public ChartPanel g_graph_panel;
+
     public XYSeriesCollection graph_dataset = new XYSeriesCollection();  
+    public XYSeriesCollection g_graph_dataset = new XYSeriesCollection();  
+
     public XYSeries series =  new XYSeries("Publication");  
     public int prev_ = -1;
+
+
     public JFreeChart chart;
+    public JFreeChart g_chart;
+
     public ValueMarker marker1;
     public ValueMarker marker;
     public ValueMarker marker2;
@@ -486,7 +499,9 @@ public class mainframe extends JFrame{
         JMenuItem brown = new JMenuItem("brown");    
         JMenu graph_menu = new JMenu("Graph Visualizers");
         JMenuItem h_graph = new JMenuItem("H-Index Graph"); 
+        JMenuItem g_graph = new JMenuItem("g-Index Graph"); 
 
+        g_graph.addActionListener(new graph_listener());
         h_graph.addActionListener(new graph_listener());
         pink.addActionListener(new color_listener());
         purple.addActionListener(new color_listener());
@@ -497,7 +512,10 @@ public class mainframe extends JFrame{
         green.addActionListener(new color_listener());
         blue.addActionListener(new color_listener());
         white.addActionListener(new color_listener());
+
         graph_menu.add(h_graph);
+        graph_menu.add(g_graph);
+
         color.add(red); color.add(green); color.add(blue); 
         color.add(white); color.add(grey); color.add(yellow);
         color.add(purple); color.add(pink); color.add(brown);
@@ -568,6 +586,19 @@ public class mainframe extends JFrame{
         }
 
     }
+
+    //g index popualtion of g_chart and g_graph_panel
+    private void g_createGraph(){
+        g_chart = ChartFactory.createXYBarChart("g-Index Bar Graph", 
+        "Research paper count", false,"Citations", graph_dataset);
+        if (g_graph_panel == null){
+            g_graph_panel = new ChartPanel(g_chart,500,500,500,500,500,500,
+            true,true,true,true,true,true);
+        }else{
+            g_graph_panel.setChart(g_chart);
+        }
+    }
+
     private void change_data_set(){
         series.clear();
         for (int i = 0; i < calculator.h_nums.length; i++){
@@ -701,6 +732,10 @@ public class mainframe extends JFrame{
             if (textArea.getText().contains("Example:")){
                 series.clear();
             }
+            if (g_graph_window != null){
+                g_createGraph();
+                g_graph_window.add(g_graph_panel);
+            }
             if (graph_window != null ){
                 //System.out.println(frame.getContentPane().getBackground().toString());
                 createGraph();
@@ -800,34 +835,36 @@ public class mainframe extends JFrame{
     //  -sort of fixed 
     // BUG:: value markers do not dissapear when the h index is 0 or 1. not substantially breaking but is not pleasing to the eye
     
+
     class graph_listener implements ActionListener {
         private int counter = 0;
         public void actionPerformed(ActionEvent event) {
             counter +=1 ;
-            if (graph_window == null){
-                graph_window = new JDialog();
-                graph_window.setLayout(new GridBagLayout());
-                graph_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                graph_window.setSize(600,600);
-                graph_window.setTitle("Raw H_index Cartesian Visualizer");
-                graph_window.setResizable(false);
-                createGraph();
-                //graph_window.add(graph_panel);
-                graph_window.add(graph_panel);
-                //Paint p = new GradientPaint(0, 0, Color.red, 100, 100, Color.pink, true); 
-                //         graph_panel.setBackground(Color.RED);
-                //         graph_panel.setPreferredSize(new java.awt.Dimension(graph_panel.getWidth(), panel.getHeight()));
-                //         graph_panel.setSize(new java.awt.Dimension(graph_panel.getWidth(), graph_panel.getHeight()));
-                // // frame.invalidate();
-                //         graph_window.validate(); 
-                //chart.getXYPlot().setBackgroundPaint(rgb_complement_color());  
-                // ((XYPlot)chart).getPlot().setBackgroundPaint( rgb_complement_color() );
-                //graph_panel.setBackground( rgb_complement_color() );
-                rgb_complement(graph_window);
-                //graph_window.setContentPane(graph_);
-                //maybe set contentpane of grapj_window to Chart Panel which in this case is the graph_panel
-                //graph_window.setVisible(true);
-
+            if (graph_window == null ){
+                if (((JMenuItem)event.getSource()).getText() == "H-Index Graph"){
+                    graph_window = new JDialog();
+                    graph_window.setLayout(new GridBagLayout());
+                    graph_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                    graph_window.setSize(600,600);
+                    graph_window.setTitle("Raw H-index Cartesian Visualizer");
+                    graph_window.setResizable(false);
+                    createGraph();
+                    //graph_window.add(graph_panel);
+                    graph_window.add(graph_panel);
+                    //Paint p = new GradientPaint(0, 0, Color.red, 100, 100, Color.pink, true); 
+                    //         graph_panel.setBackground(Color.RED);
+                    //         graph_panel.setPreferredSize(new java.awt.Dimension(graph_panel.getWidth(), panel.getHeight()));
+                    //         graph_panel.setSize(new java.awt.Dimension(graph_panel.getWidth(), graph_panel.getHeight()));
+                    // // frame.invalidate();
+                    //         graph_window.validate(); 
+                    //chart.getXYPlot().setBackgroundPaint(rgb_complement_color());  
+                    // ((XYPlot)chart).getPlot().setBackgroundPaint( rgb_complement_color() );
+                    //graph_panel.setBackground( rgb_complement_color() );
+                    rgb_complement(graph_window);
+                    //graph_window.setContentPane(graph_);
+                    //maybe set contentpane of grapj_window to Chart Panel which in this case is the graph_panel
+                    //graph_window.setVisible(true);
+                }
                 //GRADIENT PANEL EXTENSION--------------------------------------------------------------------------
                 // public static final int VERT = 0;
                 // public static final int HOR = 1;
@@ -935,6 +972,7 @@ public class mainframe extends JFrame{
                         marker2.setPaint(new Color(177,156,217));
     
                     }
+                
                     
                     //
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
@@ -945,13 +983,27 @@ public class mainframe extends JFrame{
                     plot.addRangeMarker(marker2);
                     
                 }
-                
-            
-            
+            } 
+            if (g_graph_window == null){
+                if (((JMenuItem)event.getSource()).getText() == "g-Index Graph"){
+                    g_graph_window = new JDialog();
+                    g_graph_window.setLayout(new GridBagLayout());
+                    g_graph_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                    g_graph_window.setSize(600,600);
+                    g_graph_window.setTitle("g-index Cartesian Visualizer");
+                    g_graph_window.setResizable(false);
+                    g_createGraph();
+                    //graph_window.add(graph_panel);
+                    g_graph_window.add(g_graph_panel);
+                    rgb_complement(g_graph_window);
+                }
             
             }
             
-            graph_window.setVisible(true);
+        
+            
+            if (graph_window != null) graph_window.setVisible(true);
+            if (g_graph_window != null) g_graph_window.setVisible(true);
             if (counter < 2){notif.setVisible(true);}
             
 
@@ -1341,6 +1393,10 @@ public class mainframe extends JFrame{
                 nnn.set_colors(rgb_complement_color(),frame.getContentPane().getBackground());
                 notif.setContentPane(nnn);
             }
+            if (g_graph_window != null){
+                nnn.set_colors(rgb_complement_color(),frame.getContentPane().getBackground());
+                notif.setContentPane(nnn);
+            }
             if (more_window != null){
                 more_panel.set_colors(frame.getContentPane().getBackground(),rgb_complement_color());
                 more_window.setContentPane(more_panel);
@@ -1348,6 +1404,7 @@ public class mainframe extends JFrame{
             //all new windows can be converted accordingly using this function. checks for null
             rgb_complement(n);
             rgb_complement(graph_window);
+            rgb_complement(g_graph_window);
             // if (graph_window != null){
             //     ((XYPlot)chart).getPlot().setBackgroundPaint( rgb_complement_color() );
             //     graph_panel.setBackground( rgb_complement_color() );
@@ -1380,6 +1437,9 @@ public class mainframe extends JFrame{
 // graph the indexes
 
 
+
+//potentialluy add google scholar support which will allow me to do more complex
+//calulcations invovling more variables such as year, and co authorship
 
 
 
