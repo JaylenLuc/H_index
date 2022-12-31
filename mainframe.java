@@ -329,7 +329,7 @@ public class mainframe extends JFrame{
         {
             //1,2,3,4,5
             //0,1,2,3,4
-            //Σ (j = 1) cit j - h^2
+            //Σ (j = 1) (h = h index) cit j - h^2
             //no fukcing oracle to test this shit on
             double e_num = 0;
             //h = 5
@@ -1746,7 +1746,9 @@ public class mainframe extends JFrame{
 
 //  1******. make another jdialog and display all available alt scores for the data input
 
-// graph the indexes
+// graph the indexes **DONE
+
+//make the history tab
 
 
 
