@@ -645,7 +645,7 @@ public class mainframe extends JFrame{
 
     private void e_createGraph(){
         //create a bar chart which shows aggregate citations in all articles that are above the H index and at or below the H - index
-        //grpuped by excess citations and counted citations (counted citations include all publications at the H-index  so its all cits that are < h_number)
+        //grpuped by ignored excess citations and counted citations (counted citations include all publications at the H-index  so its all cits that are < h_number)
     }
 
 
@@ -859,6 +859,8 @@ public class mainframe extends JFrame{
             }
 
             if (g_graph_panel != null){
+                gmarker1 = null;
+                gmarker = null;
                 g_createGraph();
 
                 //gplot.setBackgroundPaint(SystemColor.inactiveCaption);
@@ -1386,7 +1388,10 @@ public class mainframe extends JFrame{
                     // System.out.println(marker1.getValue());
                     // System.out.println(marker2.getValue());
                 }
-               
+                if(gmarker != null){
+                    gmarker1 = null;
+                    gmarker = null;
+                }
                 
                
             }
