@@ -1,41 +1,63 @@
 package H_index_calc;
 
-import java.lang.Math;
-import org.jfree.chart.ChartFactory;  
-import org.jfree.chart.ChartPanel;  
-import org.jfree.chart.JFreeChart;  
-import org.jfree.chart.plot.Marker;
-import org.jfree.chart.plot.ValueMarker;
-import org.jfree.chart.plot.XYPlot;  
-import org.jfree.data.xy.XYDataset;  
-import org.jfree.data.xy.XYSeries;  
-import org.jfree.data.xy.XYSeriesCollection;  
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.RenderingHints;
-import java.util.*;
-import javax.swing.SwingUtilities;
-import java.util.stream.*;
-import java.awt.geom.*;  
-import java.io.File;
-import java.nio.file.FileSystems;
-import java.nio.file.Paths;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.TextAnchor;
-import java.awt.*;  
-import java.awt.event.*;  
-import java.awt.image.*;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.stream.*;  
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+
+import org.jfree.chart.axis.*;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.ValueMarker;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleAnchor;
+import org.jfree.ui.TextAnchor;  
+import org.jfree.chart.renderer.category.StandardBarPainter;
 
 //were swinging this cuz i dont wanna bother with JavaFx download
 
@@ -340,8 +362,11 @@ public class mainframe extends JFrame{
     public JDialog g_graph_window;
     public ChartPanel g_graph_panel;
 
+    public JDialog e_graph_window;
+    public ChartPanel e_graph_panel;
+
     public XYSeriesCollection graph_dataset = new XYSeriesCollection();  
-    public XYSeriesCollection g_graph_dataset = new XYSeriesCollection();  
+    public XYSeriesCollection e_graph_dataset = new XYSeriesCollection();  
 
     public XYSeries series =  new XYSeries("Publication");  
     public int prev_ = -1;
@@ -349,6 +374,7 @@ public class mainframe extends JFrame{
 
     public JFreeChart chart;
     public JFreeChart g_chart;
+    public JFreeChart e_chart;
 
     public ValueMarker marker1;
     public ValueMarker marker;
@@ -369,6 +395,9 @@ public class mainframe extends JFrame{
 
     public JTextField e_field;
     public JLabel e_Label;
+
+    public ValueMarker gmarker;
+    public ValueMarker gmarker1;
 
     public mainframe(){
         graph_dataset.addSeries(series);
@@ -577,6 +606,8 @@ public class mainframe extends JFrame{
         chart = ChartFactory.createScatterPlot(  
         "Raw H-Index Graph (discrete)",   
         "Research paper count", "Citations", graph_dataset);
+        ((XYPlot)chart.getPlot()).getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        ((XYPlot)chart.getPlot()).getDomainAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         if (graph_panel == null){
             graph_panel = new ChartPanel(chart,500,500,500,500,500,500,
             true,true,true,true,true,true);
@@ -591,9 +622,13 @@ public class mainframe extends JFrame{
     private void g_createGraph(){
         g_chart = ChartFactory.createXYBarChart("g-Index Bar Graph", 
         "Research paper count", false,"Citations", graph_dataset);
+        //((XYPlot)g_chart).getValueAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        ((XYPlot)g_chart.getPlot()).getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        ((XYPlot)g_chart.getPlot()).getDomainAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         if (g_graph_panel == null){
             g_graph_panel = new ChartPanel(g_chart,500,500,500,500,500,500,
             true,true,true,true,true,true);
+
         }else{
             g_graph_panel.setChart(g_chart);
         }
@@ -606,6 +641,10 @@ public class mainframe extends JFrame{
         }
         //series.setSeriesPaint();
 
+    }
+
+    private void e_createGraph(){
+        
     }
 
 
@@ -746,7 +785,7 @@ public class mainframe extends JFrame{
                 // graph_window.add(ttt);
                 //
 
-
+                //markers for h index graph
                 if (res != -1){
                     //System.out.println(res);
                     marker = new ValueMarker(res);  // position is the value on the axis
@@ -816,6 +855,79 @@ public class mainframe extends JFrame{
                 }
                 
                 //graph_window.setVisible(true);
+            }
+
+            if (g_graph_panel != null){
+                g_createGraph();
+
+                //gplot.setBackgroundPaint(SystemColor.inactiveCaption);
+                //((BarRenderer)gplot.getRenderer()).setBarPainter(new StandardBarPainter());
+                //g_chart.setSeriesPaint(0, Color.blue);
+                //graph_window.add(graph_panel);
+
+
+                g_graph_window.add(g_graph_panel);
+                rgb_complement(g_graph_window);
+            
+                if (!houtput.getText().isEmpty() ){
+                    //gmarker(1)
+                    int ttem = (int)calculator.g_bomb();
+                    gmarker = new ValueMarker(ttem);
+                    gmarker.setPaint(rgb_complement_color());
+
+                    gmarker1 = new ValueMarker((int)calculator.h_nums[ttem-1]);
+                    gmarker1.setPaint(rgb_complement_color());
+                    //setStandardTickUnits(NumberAxis.createIntegerTickUnits() )
+                    XYPlot plot = g_chart.getXYPlot();
+                    //plot.addRangeMarker(gmarker1);
+
+                    gmarker1.setStroke(new BasicStroke(1.5f));
+                    gmarker.setStroke(new BasicStroke(1.5f));
+                    plot.addDomainMarker(gmarker);
+                    plot.addRangeMarker(gmarker1);
+
+                    if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
+                    &&frame.getContentPane().getBackground().getBlue() == 206){
+                        gmarker.setPaint(new Color(130, 180, 70));
+                        gmarker1.setPaint(new Color(130, 180, 70));
+                        
+        
+                    }
+                    //r=191,g=227,b=180
+                    else if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
+                    &&frame.getContentPane().getBackground().getBlue() == 180){
+                        gmarker.setPaint(new Color(218,112,234));
+                        gmarker1.setPaint(new Color(218,112,234));
+                        
+        
+                    }
+                    //196,178,162
+                    else if (frame.getContentPane().getBackground().getRed() == 196 &&frame.getContentPane().getBackground().getGreen() == 178 
+                    &&frame.getContentPane().getBackground().getBlue() == 162){
+                        //145,162,176
+                        gmarker.setPaint(new Color(145,162,176));
+                        gmarker1.setPaint(new Color(145,162,176));
+                    
+                    }
+                    //blue
+                    //171, 215, 235
+                    else if (frame.getContentPane().getBackground().getRed() == 171 &&frame.getContentPane().getBackground().getGreen() == 215 
+                    &&frame.getContentPane().getBackground().getBlue() == 235){
+                        //235,191,171
+                        gmarker.setPaint(new Color(255,191,181));
+                        gmarker1.setPaint(new Color(255,191,181));
+                    
+                    }
+                    //255, 244, 189
+                    else if (frame.getContentPane().getBackground().getRed() == 255 &&frame.getContentPane().getBackground().getGreen() == 244 
+                    &&frame.getContentPane().getBackground().getBlue() == 189){
+                        //177,156,217
+                        gmarker.setPaint(new Color(177,156,217));
+                        gmarker1.setPaint(new Color(177,156,217));
+                    
+
+                    }
+                }
             }
 
             if (more_window != null && i_res != -1 && g_res != -1 && e_res != -1){
@@ -976,11 +1088,12 @@ public class mainframe extends JFrame{
                     
                     //
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
-                    
+                    if (((JMenuItem)event.getSource()).getText() == "H-Index Graph"){
                     XYPlot plot =chart.getXYPlot();
                     plot.addRangeMarker(marker1);
                     plot.addDomainMarker(marker);
                     plot.addRangeMarker(marker2);
+                    }
                     
                 }
             } 
@@ -993,9 +1106,76 @@ public class mainframe extends JFrame{
                     g_graph_window.setTitle("g-index Cartesian Visualizer");
                     g_graph_window.setResizable(false);
                     g_createGraph();
+
+                    //gplot.setBackgroundPaint(SystemColor.inactiveCaption);
+                    //((BarRenderer)gplot.getRenderer()).setBarPainter(new StandardBarPainter());
+                    //g_chart.setSeriesPaint(0, Color.blue);
                     //graph_window.add(graph_panel);
+
+
                     g_graph_window.add(g_graph_panel);
                     rgb_complement(g_graph_window);
+                
+                    if (!houtput.getText().isEmpty() ){
+                        //gmarker(1)
+                        int ttem = (int)calculator.g_bomb();
+                        gmarker = new ValueMarker(ttem);
+                        gmarker.setPaint(rgb_complement_color());
+
+                        gmarker1 = new ValueMarker((int)calculator.h_nums[ttem-1]);
+                        gmarker1.setPaint(rgb_complement_color());
+                        //setStandardTickUnits(NumberAxis.createIntegerTickUnits() )
+                        XYPlot plot = g_chart.getXYPlot();
+                        //plot.addRangeMarker(gmarker1);
+
+                        gmarker1.setStroke(new BasicStroke(1.5f));
+                        gmarker.setStroke(new BasicStroke(1.5f));
+                        plot.addDomainMarker(gmarker);
+                        plot.addRangeMarker(gmarker1);
+
+                        if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
+                        &&frame.getContentPane().getBackground().getBlue() == 206){
+                            gmarker.setPaint(new Color(130, 180, 70));
+                            gmarker1.setPaint(new Color(130, 180, 70));
+                            
+            
+                        }
+                        //r=191,g=227,b=180
+                        else if (frame.getContentPane().getBackground().getRed() == 191 &&frame.getContentPane().getBackground().getGreen() == 227 
+                        &&frame.getContentPane().getBackground().getBlue() == 180){
+                            gmarker.setPaint(new Color(218,112,234));
+                            gmarker1.setPaint(new Color(218,112,234));
+                            
+            
+                        }
+                        //196,178,162
+                        else if (frame.getContentPane().getBackground().getRed() == 196 &&frame.getContentPane().getBackground().getGreen() == 178 
+                        &&frame.getContentPane().getBackground().getBlue() == 162){
+                            //145,162,176
+                            gmarker.setPaint(new Color(145,162,176));
+                            gmarker1.setPaint(new Color(145,162,176));
+                           
+                        }
+                        //blue
+                        //171, 215, 235
+                        else if (frame.getContentPane().getBackground().getRed() == 171 &&frame.getContentPane().getBackground().getGreen() == 215 
+                        &&frame.getContentPane().getBackground().getBlue() == 235){
+                            //235,191,171
+                            gmarker.setPaint(new Color(255,191,181));
+                            gmarker1.setPaint(new Color(255,191,181));
+                           
+                        }
+                        //255, 244, 189
+                        else if (frame.getContentPane().getBackground().getRed() == 255 &&frame.getContentPane().getBackground().getGreen() == 244 
+                        &&frame.getContentPane().getBackground().getBlue() == 189){
+                            //177,156,217
+                            gmarker.setPaint(new Color(177,156,217));
+                            gmarker1.setPaint(new Color(177,156,217));
+                           
+        
+                        }
+                    }
+
                 }
             
             }
@@ -1385,6 +1565,48 @@ public class mainframe extends JFrame{
                     marker.setPaint(rgb_complement_color());
                     marker1.setPaint(rgb_complement_color());
                     marker2.setPaint(rgb_complement_color());
+                }
+            }
+            if (gmarker != null && g_graph_window != null){
+                if (colorEvent == "purple"){
+                    gmarker.setPaint(new Color(130, 180, 70));
+                    gmarker1.setPaint(new Color(130, 180, 70));
+                    
+
+                }
+                //240,255,240
+                else if (colorEvent == "green"){
+                    gmarker.setPaint(new Color(218,112,234));
+                    gmarker1.setPaint(new Color(218,112,234));
+                    
+
+                }
+                else if (colorEvent == "brown"){
+                    //145,162,176
+                    gmarker.setPaint(new Color(145,162,176));
+                    gmarker1.setPaint(new Color(145,162,176));
+                    
+                }
+                //blue
+                else if (colorEvent == "blue"){
+                    //235,191,171
+                    gmarker.setPaint(new Color(255,191,181));
+                    gmarker1.setPaint(new Color(255,191,181));
+                    
+                }
+                //brown
+                else if (colorEvent == "yellow"){
+                    //177,156,217
+                    gmarker.setPaint(new Color(177,156,217));
+                    gmarker1.setPaint(new Color(177,156,217));
+                    
+
+                }
+                else{
+
+                    gmarker.setPaint(rgb_complement_color());
+                    gmarker1.setPaint(rgb_complement_color());
+                    
                 }
             }
                 
