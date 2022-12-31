@@ -58,6 +58,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;  
 import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.plot.PlotOrientation;
 
 //were swinging this cuz i dont wanna bother with JavaFx download
 
@@ -366,8 +368,8 @@ public class mainframe extends JFrame{
     public ChartPanel e_graph_panel;
 
     public XYSeriesCollection graph_dataset = new XYSeriesCollection();  
-    public XYSeriesCollection e_graph_dataset = new XYSeriesCollection();  
-
+    //public XYSeriesCollection e_graph_dataset = new XYSeriesCollection();  
+    public DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
     public XYSeries series =  new XYSeries("Publication");  
     public int prev_ = -1;
 
@@ -398,6 +400,8 @@ public class mainframe extends JFrame{
 
     public ValueMarker gmarker;
     public ValueMarker gmarker1;
+
+    public int counter = 0;
 
     public mainframe(){
         graph_dataset.addSeries(series);
@@ -529,9 +533,11 @@ public class mainframe extends JFrame{
         JMenu graph_menu = new JMenu("Graph Visualizers");
         JMenuItem h_graph = new JMenuItem("H-Index Graph"); 
         JMenuItem g_graph = new JMenuItem("g-Index Graph"); 
+        JMenuItem e_graph = new JMenuItem("e-Index Graph"); 
 
         g_graph.addActionListener(new graph_listener());
         h_graph.addActionListener(new graph_listener());
+        e_graph.addActionListener(new graph_listener());
         pink.addActionListener(new color_listener());
         purple.addActionListener(new color_listener());
         brown.addActionListener(new color_listener());
@@ -544,6 +550,7 @@ public class mainframe extends JFrame{
 
         graph_menu.add(h_graph);
         graph_menu.add(g_graph);
+        graph_menu.add(e_graph);
 
         color.add(red); color.add(green); color.add(blue); 
         color.add(white); color.add(grey); color.add(yellow);
@@ -643,9 +650,50 @@ public class mainframe extends JFrame{
 
     }
 
+    private void e_change_data_set(){
+        //"citations"
+        dataset.clear();
+        int agg_abv = 0;
+        int agg_bel = 0;
+        int i ;
+        for (i = 0; i < calculator.h_nums.length; i++){
+            if (i == calculator.h_number -1 || calculator.h_nums[i] == calculator.h_number){
+                agg_abv += calculator.h_nums[i] - calculator.h_number;
+                break;
+            }else{
+                
+                agg_abv += calculator.h_nums[i] - calculator.h_number;
+            }
+        }
+        dataset.setValue(agg_abv, "citations above the H index inclusive", "Net Excess Citations");
+        
+        for (i = i+1; i < calculator.h_nums.length; i++){
+            agg_bel += calculator.h_number - calculator.h_nums[i];
+        }
+
+        dataset.setValue(agg_bel, "number of citations under the H index", "Counted Citations");
+
+    }
+
     private void e_createGraph(){
         //create a bar chart which shows aggregate citations in all articles that are above the H index and at or below the H - index
         //grpuped by ignored excess citations and counted citations (counted citations include all publications at the H-index  so its all cits that are < h_number)
+        
+        e_chart = ChartFactory.createBarChart("e-Index Net-excess citations Graph", 
+        "Disenfranchised/ Enfranchised Citations","Aggregate Citations", dataset, PlotOrientation.VERTICAL, false, true, false);
+        //((XYPlot)g_chart).getValueAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        // ((XYPlot)e_chart.getPlot()).getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        // ((XYPlot)e_chart.getPlot()).getDomainAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        
+        if (e_graph_panel == null){
+            e_graph_panel = new ChartPanel(e_chart,500,500,500,500,500,500,
+            true,true,true,true,true,true);
+
+        }else{
+            e_graph_panel.setChart(e_chart);
+        }
+    
+    
     }
 
 
@@ -767,14 +815,21 @@ public class mainframe extends JFrame{
                 houtput.setText(String.valueOf(res));
                 hpercout.setText(String.valueOf(resperc));
                 change_data_set();
+                e_change_data_set();
 
             }
             if (textArea.getText().contains("Example:")){
                 series.clear();
+                dataset.clear();
             }
             if (g_graph_window != null){
                 g_createGraph();
                 g_graph_window.add(g_graph_panel);
+            }
+            if (e_graph_window != null){
+                e_createGraph();
+                e_graph_window.add(e_graph_panel);
+
             }
             if (graph_window != null ){
                 //System.out.println(frame.getContentPane().getBackground().toString());
@@ -889,6 +944,10 @@ public class mainframe extends JFrame{
                     gmarker1.setLabel(String.format("Top %d Papers",calculator.g_bomb()));
                     gmarker1.setLabelAnchor(RectangleAnchor.TOP_LEFT);
                     gmarker1.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
+
+                    gmarker.setLabel(String.format("g-Index location of maximum viability: %d",calculator.g_bomb()));
+                    gmarker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
+                    gmarker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
                     
                     plot.addDomainMarker(gmarker);
                     plot.addRangeMarker(gmarker1);
@@ -956,7 +1015,6 @@ public class mainframe extends JFrame{
     
 
     class graph_listener implements ActionListener {
-        private int counter = 0;
         public void actionPerformed(ActionEvent event) {
             counter +=1 ;
             if (graph_window == null ){
@@ -1007,22 +1065,23 @@ public class mainframe extends JFrame{
                 //     this.color_start = color2;
                 //     this.direction = dir;
                 // }  
-                
-                notif = new JDialog();
-                notif.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                
-                notif.setSize(450,85);
-                notif.setResizable(false);
-                // System.out.println(rgb_complement_color());
-                // System.out.println(frame.getContentPane().getBackground());
-                nnn = new GradientPanel(rgb_complement_color(),
-                frame.getContentPane().getBackground()
-                ,2);
-                JLabel ttt = new JLabel("Right click on the chart for additonal features or to zoom in/out.");
-                nnn.add(ttt);
-                //notif.setContentPane(nnn);
-                
-                notif.setContentPane(nnn);
+                if (counter == 1){
+                    notif = new JDialog();
+                    notif.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                    
+                    notif.setSize(450,85);
+                    notif.setResizable(false);
+                    // System.out.println(rgb_complement_color());
+                    // System.out.println(frame.getContentPane().getBackground());
+                    nnn = new GradientPanel(rgb_complement_color(),
+                    frame.getContentPane().getBackground()
+                    ,2);
+                    JLabel ttt = new JLabel("Right click on the chart for additonal features or to zoom in/out.");
+                    nnn.add(ttt);
+                    //notif.setContentPane(nnn);
+                    
+                    notif.setContentPane(nnn);
+                }
                 
                 
                 //----------------------------------------------------------------------------------------------------
@@ -1110,7 +1169,7 @@ public class mainframe extends JFrame{
                     g_graph_window.setLayout(new GridBagLayout());
                     g_graph_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                     g_graph_window.setSize(600,600);
-                    g_graph_window.setTitle("g-index Cartesian Visualizer");
+                    g_graph_window.setTitle("g-index Bar Graph Visualizer");
                     g_graph_window.setResizable(false);
                     g_createGraph();
 
@@ -1142,6 +1201,10 @@ public class mainframe extends JFrame{
                         gmarker1.setLabel(String.format("Top %d Papers",calculator.g_bomb()));
                         gmarker1.setLabelAnchor(RectangleAnchor.TOP_LEFT);
                         gmarker1.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
+
+                        gmarker.setLabel(String.format("g-Index location of maximum viability: %d",calculator.g_bomb()));
+                        gmarker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
+                        gmarker.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
 
                         if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
                         &&frame.getContentPane().getBackground().getBlue() == 206){
@@ -1190,10 +1253,26 @@ public class mainframe extends JFrame{
             
             }
             
+            if (e_graph_window == null &&((JMenuItem)event.getSource()).getText() == "e-Index Graph"){
+                e_graph_window = new JDialog();
+                e_graph_window.setLayout(new GridBagLayout());
+                e_graph_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                e_graph_window.setSize(600,600);
+                e_graph_window.setTitle("e-index Bar Graph Visualizer");
+                e_graph_window.setResizable(false);
+                e_createGraph();
+
+                e_graph_window.add(e_graph_panel);
+                rgb_complement(e_graph_window);
+                
+
+            }
+            
         
             
             if (graph_window != null && ((JMenuItem)event.getSource()).getText() == "H-Index Graph") graph_window.setVisible(true);
             if (g_graph_window != null && ((JMenuItem)event.getSource()).getText() == "g-Index Graph") g_graph_window.setVisible(true);
+            if (e_graph_window != null && ((JMenuItem)event.getSource()).getText() == "e-Index Graph") e_graph_window.setVisible(true);
             if (counter < 2){notif.setVisible(true);}
             
 
@@ -1376,6 +1455,7 @@ public class mainframe extends JFrame{
                     e_field.setText("");
                 }
                 series.clear();
+                dataset.clear();
 
                 
             
@@ -1623,12 +1703,8 @@ public class mainframe extends JFrame{
                 }
             }
                 
-            if (graph_window != null){
+            if (graph_window != null || g_graph_window != null || e_graph_window != null){
 
-                nnn.set_colors(rgb_complement_color(),frame.getContentPane().getBackground());
-                notif.setContentPane(nnn);
-            }
-            if (g_graph_window != null){
                 nnn.set_colors(rgb_complement_color(),frame.getContentPane().getBackground());
                 notif.setContentPane(nnn);
             }
@@ -1640,6 +1716,7 @@ public class mainframe extends JFrame{
             rgb_complement(n);
             rgb_complement(graph_window);
             rgb_complement(g_graph_window);
+            rgb_complement(e_graph_window);
             // if (graph_window != null){
             //     ((XYPlot)chart).getPlot().setBackgroundPaint( rgb_complement_color() );
             //     graph_panel.setBackground( rgb_complement_color() );
