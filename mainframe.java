@@ -403,6 +403,9 @@ public class mainframe extends JFrame{
 
     public int counter = 0;
 
+    public JDialog hist_frame;
+    public GradientPanel hist_panel;
+
     public mainframe(){
         graph_dataset.addSeries(series);
         //System.out.println(calculator.percentile);
@@ -534,6 +537,8 @@ public class mainframe extends JFrame{
         JMenuItem h_graph = new JMenuItem("H-Index Graph"); 
         JMenuItem g_graph = new JMenuItem("g-Index Graph"); 
         JMenuItem e_graph = new JMenuItem("e-Index Graph"); 
+        JMenuItem history = new JMenuItem("Your H-Index Records"); 
+
 
         g_graph.addActionListener(new graph_listener());
         h_graph.addActionListener(new graph_listener());
@@ -547,7 +552,7 @@ public class mainframe extends JFrame{
         green.addActionListener(new color_listener());
         blue.addActionListener(new color_listener());
         white.addActionListener(new color_listener());
-
+        history.addActionListener(new history_listener());
         graph_menu.add(h_graph);
         graph_menu.add(g_graph);
         graph_menu.add(e_graph);
@@ -558,8 +563,9 @@ public class mainframe extends JFrame{
         exitItem.addActionListener(new exit_listener());
         JMenuItem creator = new JMenuItem("the developer");
         creator.addActionListener(new creator_listener());
-        setting.add(exitItem);
+        setting.add(history);
         setting.add(creator);
+        setting.add(exitItem);
         menubar.add(setting);
         menubar.add(color);
         menubar.add(graph_menu);
@@ -708,6 +714,24 @@ public class mainframe extends JFrame{
         }
     }
 
+    class history_listener implements ActionListener{
+        public void actionPerformed(ActionEvent event) {
+            hist_panel = new GradientPanel(frame.getContentPane().getBackground(), rgb_complement_color(), 2 );
+            hist_frame = new JDialog();
+            hist_frame.setTitle("Your last 15 H-index results");
+            hist_frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+            hist_frame.add(hist_panel);
+            hist_frame.setSize(600,600);
+            hist_frame.setResizable(false);
+            hist_frame.setVisible(true);
+
+        }
+
+
+    }
+
+
+
 
     class more_listener implements ActionListener {
         //g^2 <= Σ ci
@@ -717,6 +741,7 @@ public class mainframe extends JFrame{
                 more_window.setDefaultCloseOperation(HIDE_ON_CLOSE);
                 more_window.setTitle("More Bibliometric Indices");
                 more_window.setSize(600,600);
+                more_window.setResizable(false);
                 more_panel = new GradientPanel(frame.getContentPane().getBackground(), rgb_complement_color(), 3);
                
                 more_window.setContentPane(more_panel);
@@ -901,6 +926,12 @@ public class mainframe extends JFrame{
                         marker2.setPaint(new Color(177,156,217));
     
                     }
+                    else if(frame.getContentPane().getBackground().equals(new Color(242, 177, 149))){
+                        //System.out.println("FUCK");
+                        marker.setPaint(new Color(139,198,252));
+                        marker1.setPaint(new Color(139,198,252));
+                        marker2.setPaint(new Color(139,198,252));
+                    }
                 //[r=191,g=227,b=180
                     //marker.setLabel("here"); // see JavaDoc for labels, colors, strokes
 
@@ -992,6 +1023,12 @@ public class mainframe extends JFrame{
                         gmarker1.setPaint(new Color(177,156,217));
                     
 
+                    }
+                    else if(frame.getContentPane().getBackground().equals(new Color(242, 177, 149))){
+                        //(139,211,230)
+                        gmarker.setPaint(new Color(139,198,252));
+                        gmarker1.setPaint(new Color(139,198,252));
+                        
                     }
                 }
             }
@@ -1150,6 +1187,12 @@ public class mainframe extends JFrame{
                         marker2.setPaint(new Color(177,156,217));
     
                     }
+                    else if(frame.getContentPane().getBackground().equals(new Color(242, 177, 149))){
+                        //(139,211,230)
+                        marker.setPaint(new Color(139,198,252));
+                        marker1.setPaint(new Color(139,198,252));
+                        marker2.setPaint(new Color(139,198,252));
+                    }
                 
                     
                     //
@@ -1246,6 +1289,10 @@ public class mainframe extends JFrame{
                             gmarker1.setPaint(new Color(177,156,217));
                            
         
+                        }else if(frame.getContentPane().getBackground().equals(new Color(242, 177, 149))){
+                            //(139,211,230)
+                            gmarker.setPaint(new Color(139,198,252));
+                            gmarker1.setPaint(new Color(139,198,252));
                         }
                     }
 
@@ -1625,6 +1672,12 @@ public class mainframe extends JFrame{
                     marker2.setPaint(new Color(130, 180, 70));
 
                 }
+                else if (colorEvent == "red")
+                {
+                    marker.setPaint(new Color(139,198,252));
+                    marker1.setPaint(new Color(139,198,252));
+                    marker2.setPaint(new Color(139,198,252));
+                }
                 //240,255,240
                 else if (colorEvent == "green"){
                     marker.setPaint(new Color(218,112,234));
@@ -1666,6 +1719,11 @@ public class mainframe extends JFrame{
                     gmarker1.setPaint(new Color(130, 180, 70));
                     
 
+                }
+                else if (colorEvent == "red")
+                {
+                    gmarker.setPaint(new Color(139,198,252));
+                    gmarker1.setPaint(new Color(139,198,252));
                 }
                 //240,255,240
                 else if (colorEvent == "green"){
@@ -1711,6 +1769,11 @@ public class mainframe extends JFrame{
             if (more_window != null){
                 more_panel.set_colors(frame.getContentPane().getBackground(),rgb_complement_color());
                 more_window.setContentPane(more_panel);
+            }
+            if (hist_frame != null){
+                hist_panel.set_colors(frame.getContentPane().getBackground(),rgb_complement_color());
+                hist_frame.setContentPane(hist_panel);
+                
             }
             //all new windows can be converted accordingly using this function. checks for null
             rgb_complement(n);
