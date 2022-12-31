@@ -644,7 +644,8 @@ public class mainframe extends JFrame{
     }
 
     private void e_createGraph(){
-        
+        //create a bar chart which shows aggregate citations in all articles that are above the H index and at or below the H - index
+        //grpuped by excess citations and counted citations (counted citations include all publications at the H-index  so its all cits that are < h_number)
     }
 
 
@@ -883,6 +884,10 @@ public class mainframe extends JFrame{
 
                     gmarker1.setStroke(new BasicStroke(1.5f));
                     gmarker.setStroke(new BasicStroke(1.5f));
+                    gmarker1.setLabel(String.format("Top %d Papers",calculator.g_bomb()));
+                    gmarker1.setLabelAnchor(RectangleAnchor.TOP_LEFT);
+                    gmarker1.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
+                    
                     plot.addDomainMarker(gmarker);
                     plot.addRangeMarker(gmarker1);
 
@@ -1132,6 +1137,9 @@ public class mainframe extends JFrame{
                         gmarker.setStroke(new BasicStroke(1.5f));
                         plot.addDomainMarker(gmarker);
                         plot.addRangeMarker(gmarker1);
+                        gmarker1.setLabel(String.format("Top %d Papers",calculator.g_bomb()));
+                        gmarker1.setLabelAnchor(RectangleAnchor.TOP_LEFT);
+                        gmarker1.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
 
                         if (frame.getContentPane().getBackground().getRed() == 189 &&frame.getContentPane().getBackground().getGreen() == 182 
                         &&frame.getContentPane().getBackground().getBlue() == 206){
@@ -1182,8 +1190,8 @@ public class mainframe extends JFrame{
             
         
             
-            if (graph_window != null) graph_window.setVisible(true);
-            if (g_graph_window != null) g_graph_window.setVisible(true);
+            if (graph_window != null && ((JMenuItem)event.getSource()).getText() == "H-Index Graph") graph_window.setVisible(true);
+            if (g_graph_window != null && ((JMenuItem)event.getSource()).getText() == "g-Index Graph") g_graph_window.setVisible(true);
             if (counter < 2){notif.setVisible(true);}
             
 
