@@ -44,6 +44,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.SwingUtilities;
+import javax.swing.ListSelectionModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.jfree.chart.axis.*;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -64,6 +72,8 @@ import org.jfree.chart.plot.PlotOrientation;
 //were swinging this cuz i dont wanna bother with JavaFx download
 
 public class mainframe extends JFrame{
+    public static DefaultListModel<String> listModel = new DefaultListModel<>();
+    public static ArrayList<Integer[]> hist_list = new ArrayList<>();
     
     class GradientPanel extends JPanel {
 
@@ -163,7 +173,9 @@ public class mainframe extends JFrame{
         public static Map<Integer, Double> percentile;
         public static int tot_cites = 0;
         public static int h_number = -1;
-
+        
+        
+        public static int curr_num = 0;
         //public static int total_cites = 0;
         private  static void populateMap(){
             if (percentile != null){
@@ -237,6 +249,18 @@ public class mainframe extends JFrame{
                 //  for (int i : h_nums){
                 //  	System.out.println(i);
                 //  }
+                hist_list.add(h_nums);
+                curr_num += 1;
+                if (hist_list.size() > 15 ){
+                    hist_list.remove(0);
+                    listModel.remove(0);
+                    if (curr_num == 16){
+                        curr_num = 1;
+                    }
+                }
+              
+                listModel.addElement(String.format("Trial %d", curr_num));
+                
     
             }catch(NumberFormatException e){
                 System.out.println(e.getMessage());
@@ -344,6 +368,7 @@ public class mainframe extends JFrame{
 
 
         }
+
     }
     
 //semi_utility - functional inner classes END----------------------------------------------------------------------------------------------------------------
@@ -405,6 +430,8 @@ public class mainframe extends JFrame{
 
     public JDialog hist_frame;
     public GradientPanel hist_panel;
+    
+    public JList<String> hist_jlist;
 
     public mainframe(){
         graph_dataset.addSeries(series);
@@ -714,22 +741,75 @@ public class mainframe extends JFrame{
         }
     }
 
+    class hist_listener implements ListSelectionListener {
+        public void valueChanged(ListSelectionEvent e) {
+            ListSelectionModel selected = (ListSelectionModel)e.getSource();
+            if (!selected.isSelectionEmpty()){
+                hist_list.get(hist_jlist.getSelectedIndex());
+
+
+
+
+
+
+
+
+
+                
+                //POSSIBILITIES------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                
+                //BEST CASE::
+                //i hope and i think i designed all acnillary windows to populate and calculate their respective info and handle all cases
+                //all i need to do::
+                //popualte the main input textarea with  == hist_list.get(hist_jlist.getSelectedIndex());
+                //auomtatically clikc the hbutton
+
+                //LAST STEP::
+                //hope i designed this porgam well enough, the hbutton listener, and all the supporting listeners well emough to do everything by themselves when i do button.doClick() 
+                //act politely and accordingly so i do not have to worry about re implementation
+
+
+                //WORST CASE::
+                //now here is where u need to get the array of citiations and re calculate everything
+                //if a window is null then u must recreate that window: more window, 3 graphs, 
+                //populate the new numbers into the correct jtextfields
+                //repopulate the respective graphs
+
+                //POSSIBILITIES END------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                
+            }
+        }
+    }
+
     class history_listener implements ActionListener{
         public void actionPerformed(ActionEvent event) {
-            hist_panel = new GradientPanel(frame.getContentPane().getBackground(), rgb_complement_color(), 2 );
-            hist_frame = new JDialog();
-            hist_frame.setTitle("Your last 15 H-index results");
-            hist_frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-            hist_frame.add(hist_panel);
-            hist_frame.setSize(600,600);
-            hist_frame.setResizable(false);
-            hist_frame.setVisible(true);
+            if (hist_panel == null){
+                hist_panel = new GradientPanel(frame.getContentPane().getBackground(), rgb_complement_color(), 2 );
+                hist_frame = new JDialog();
+                hist_frame.setTitle("Your last 15 results");
+                hist_frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+                hist_frame.add(hist_panel);
+                hist_frame.setSize(200,300);
+                hist_frame.setResizable(false);
+
+                hist_jlist = new JList<>(listModel);
+
+                hist_jlist.getSelectionModel().addListSelectionListener(new hist_listener());
+
+                add(hist_jlist);
+                add(new JScrollPane(hist_jlist));
+                hist_panel.add(hist_jlist);
+
+                hist_frame.setVisible(true);
+            }
+            else{
+                hist_frame.setVisible(true);
+            }
 
         }
 
 
     }
-
 
 
 
@@ -1506,7 +1586,7 @@ public class mainframe extends JFrame{
 
                 
             
-                if (marker != null){
+                if (marker != null ||marker1 != null || marker2 != null){
                     //System.out.println(marker.getValue());
                     marker = null;
                     marker1 = null;
@@ -1515,7 +1595,7 @@ public class mainframe extends JFrame{
                     // System.out.println(marker1.getValue());
                     // System.out.println(marker2.getValue());
                 }
-                if(gmarker != null){
+                if(gmarker != null || gmarker1 != null){
                     gmarker1 = null;
                     gmarker = null;
                 }
