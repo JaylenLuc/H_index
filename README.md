@@ -7,7 +7,7 @@ If you do not know what the author level bibliometric measure Hirsch Index check
 
 FEATURES:
 
-choose your color! auxillary tabs will be colore by its gradient or color complement
+choose your color! auxillary tabs will be colored by its gradient or color complement
 
 <img width="621" alt="image" src="https://user-images.githubusercontent.com/91278747/210675722-63f36d75-9864-4554-9714-89d8cff4684a.png">
 
