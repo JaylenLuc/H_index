@@ -23,6 +23,9 @@ what happens when you click "see further metrics" button
 
 When you click on "graph Visualizers" you can choose to see three graphs :
 
+<img width="666" alt="image" src="https://user-images.githubusercontent.com/91278747/210677031-a71060d2-81bc-4fa9-817b-43ecb0356cef.png">
+
+
 H-index graph visualizer
 
 
