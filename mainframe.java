@@ -237,11 +237,14 @@ public class mainframe extends JFrame{
         //each h index score is seperated by a single ',' in a String
         // h index (f) = max{i ∈ N : f[i] >= i}
     
-    
-        public static int h_bomb(String ind){
+        
+
+        public static int h_bomb(String ind, boolean f){
             //takes in user input and outputs h index
             //System.out.println("fsdafdfdsa");
             try{
+
+
     
                 h_nums = Stream.of(ind.split(",")).filter(i -> i.length() < 7 && !i.equals(""))
                 .map(Integer::valueOf).sorted(Comparator.reverseOrder())
@@ -249,17 +252,19 @@ public class mainframe extends JFrame{
                 //  for (int i : h_nums){
                 //  	System.out.println(i);
                 //  }
-                hist_list.add(h_nums);
-                curr_num += 1;
-                if (hist_list.size() > 15 ){
-                    hist_list.remove(0);
-                    listModel.remove(0);
-                    if (curr_num == 16){
-                        curr_num = 1;
+                if (f){
+                    hist_list.add(h_nums);
+                    curr_num += 1;
+                    if (hist_list.size() > 15 ){
+                        hist_list.remove(0);
+                        listModel.remove(0);
+                        if (curr_num == 16){
+                            curr_num = 1;
+                        }
                     }
+                
+                    listModel.addElement(String.format("Trial %d", curr_num));
                 }
-              
-                listModel.addElement(String.format("Trial %d", curr_num));
                 
     
             }catch(NumberFormatException e){
@@ -403,6 +408,8 @@ public class mainframe extends JFrame{
     public JFreeChart g_chart;
     public JFreeChart e_chart;
 
+    public JButton j;
+
     public ValueMarker marker1;
     public ValueMarker marker;
     public ValueMarker marker2;
@@ -432,6 +439,9 @@ public class mainframe extends JFrame{
     public GradientPanel hist_panel;
     
     public JList<String> hist_jlist;
+
+
+    public boolean uni_h_flag = true;
 
     public mainframe(){
         graph_dataset.addSeries(series);
@@ -632,7 +642,7 @@ public class mainframe extends JFrame{
     }
 
     private JButton createButtonOutPut(){
-        JButton j = new JButton("Calculate H-Index!");
+        j = new JButton("Calculate H-Index!");
         j.addActionListener(new Hbutton_listener());
         
         
@@ -745,9 +755,23 @@ public class mainframe extends JFrame{
         public void valueChanged(ListSelectionEvent e) {
             ListSelectionModel selected = (ListSelectionModel)e.getSource();
             if (!selected.isSelectionEmpty()){
-                hist_list.get(hist_jlist.getSelectedIndex());
+                String adder = "";
+                Integer[] rev = Stream.of(hist_list.get(hist_jlist.getSelectedIndex()))
+                .sorted().toArray(size  -> new Integer[size]);
 
+                for (Integer ii : rev){
+                    adder += String.valueOf(ii) + ",";
+                }
+                adder = adder.substring(0,adder.length()-1);
+                textArea.setText(adder);
+                //hello
 
+                //5
+                uni_h_flag = false;
+                j.doClick(); 
+                uni_h_flag = true;    
+
+                
 
 
 
@@ -905,9 +929,15 @@ public class mainframe extends JFrame{
         public void actionPerformed(ActionEvent event) {
             //System.out.print("HELLO:::   ");
             //System.out.println(calculator.get(1));
-
-            int res = calculator.h_bomb(textArea.getText()); //popualtes the public static variable : h_nums
-
+            int res;
+            Integer[] revv =Stream.of(hist_list.get(hist_jlist.getSelectedIndex()))
+            .sorted().toArray(size  -> new Integer[size]);
+            if (textArea.getText().contains("Example:")){
+                res = -1;
+            }else{
+                res = calculator.h_bomb(textArea.getText(),uni_h_flag); //popualtes the public static variable : h_nums
+            }
+            //if (calculator.h_nums.equals())
             long i_res = calculator.i10_bomb();
 
             int g_res = calculator.g_bomb();
@@ -926,6 +956,7 @@ public class mainframe extends JFrame{
             if (textArea.getText().contains("Example:")){
                 series.clear();
                 dataset.clear();
+
             }
             if (g_graph_window != null){
                 g_createGraph();
@@ -1599,6 +1630,8 @@ public class mainframe extends JFrame{
                     gmarker1 = null;
                     gmarker = null;
                 }
+
+                if (hist_jlist != null) hist_jlist.clearSelection();
                 
                
             }
