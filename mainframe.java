@@ -930,8 +930,8 @@ public class mainframe extends JFrame{
             //System.out.print("HELLO:::   ");
             //System.out.println(calculator.get(1));
             int res;
-            Integer[] revv =Stream.of(hist_list.get(hist_jlist.getSelectedIndex()))
-            .sorted().toArray(size  -> new Integer[size]);
+            // Integer[] revv =Stream.of(hist_list.get(hist_jlist.getSelectedIndex()))
+            // .sorted().toArray(size  -> new Integer[size]);
             if (textArea.getText().contains("Example:")){
                 res = -1;
             }else{
