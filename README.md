@@ -48,7 +48,6 @@ e-index graph visualizer
 <img width="1238" alt="image" src="https://user-images.githubusercontent.com/91278747/210676073-68bf0ba2-88ea-4ea4-bf7c-e919eaa30d8c.png">
 
 
-<img width="1238" alt="image" src="https://user-images.githubusercontent.com/91278747/210676140-f2de3ec2-0d96-45c7-97a6-affdf75ac6e8.png">
 
 
 Within the settings tab you can click on the "Your H-index records" button dropdown to see the last 15 trials you had!!
