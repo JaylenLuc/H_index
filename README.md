@@ -10,7 +10,7 @@ a fun User interface for calculating the H Index with a few additional ancillary
 
 If you do not know what the author level bibliometric measure Hirsch Index check out the wikipage : https://en.wikipedia.org/wiki/H-index
 
-FEATURES:
+# FEATURES:
 
 choose your color! auxillary tabs will be colored by its gradient or color complement
 
