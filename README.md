@@ -4,6 +4,7 @@ Will be made into a windows Executable and Mac executable
 
 jFreeChart WILL BE NEEDED TO RUN*****
 
+Download jFreeChart by following the instructions on this link: https://www.tutorialspoint.com/jfreechart/jfreechart_installation.htm
 
 a fun User interface for calculating the H Index with a few additional ancillary features including Altmetrics
 
