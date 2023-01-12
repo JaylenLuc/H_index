@@ -1,6 +1,5 @@
 # H_index
-Will be made into a windows Executable and Mac executable
-
+Jar file is included to run the program
 
 jFreeChart WILL BE NEEDED TO RUN*****
 
