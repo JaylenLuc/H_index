@@ -9,6 +9,27 @@ a fun User interface for calculating the H Index with a few additional ancillary
 
 If you do not know what the author level bibliometric measure Hirsch Index check out the wikipage : https://en.wikipedia.org/wiki/H-index
 
+# BIBLIOMETRIC INDICES CALCULATED AND GRAPHED VISUALLY WITHIN WORKING PROGRAM UI:
+H INDEX:
+
+<img width="322" alt="image" src="https://user-images.githubusercontent.com/91278747/214792627-4a5011ff-d0e1-456e-9257-8a525207ebdd.png">
+
+<img width="308" alt="image" src="https://user-images.githubusercontent.com/91278747/214792796-61c3af0b-2562-4f39-b067-613bf7fc0d7a.png">
+
+
+G INDEX:
+
+<img width="288" alt="image" src="https://user-images.githubusercontent.com/91278747/214793450-693c7ffa-e592-4bfe-982b-838e8c9ab8f7.png">
+
+<img width="273" alt="image" src="https://user-images.githubusercontent.com/91278747/214793493-737223eb-98ef-4613-b547-26fcfcfb66f7.png">
+
+
+E INDEX:
+
+<img width="317" alt="image" src="https://user-images.githubusercontent.com/91278747/214793599-f1377e06-eaf2-4c1c-bc03-0fe03e64f932.png">
+
+<img width="310" alt="image" src="https://user-images.githubusercontent.com/91278747/214793666-043e6e16-2ad2-454e-8bfb-3d5b381bacd0.png">
+
 # FEATURES:
 
 choose your color! auxillary tabs will be colored by its gradient or color complement
