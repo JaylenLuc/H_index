@@ -2,6 +2,13 @@
 Jar file is included to run the program
 
 jFreeChart WILL BE NEEDED TO RUN*****
+add jfree to classpath:
+https://www.tutorialspoint.com/jfreechart/jfreechart_installation.htm
+
+<img width="597" alt="image" src="https://user-images.githubusercontent.com/91278747/215182690-1606e3f8-52f2-4d0f-b672-05a4ba5a2dfe.png">
+
+for mac its :: export CLASSPATH=$CLASSPATH: path/to/jar/files
+
 
 Download jFreeChart by following the instructions on this link: https://www.tutorialspoint.com/jfreechart/jfreechart_installation.htm
 
@@ -85,3 +92,26 @@ when you click on a trial, it automatically populates all graphs and output text
 <img width="1264" alt="image" src="https://user-images.githubusercontent.com/91278747/210676240-b6204316-b85d-4b8d-bc50-f0ff8c7f24f9.png">
 
 have fun!
+
+# More pictures
+
+<img width="1198" alt="image" src="https://user-images.githubusercontent.com/91278747/215183253-05d448bb-4786-48cb-a6b8-5125a5a8eacd.png">
+
+
+<img width="1224" alt="image" src="https://user-images.githubusercontent.com/91278747/215183526-edbbbc84-c9f0-4e60-8a14-36b90db57add.png">
+
+<img width="1224" alt="image" src="https://user-images.githubusercontent.com/91278747/215183672-210ee6c8-1da7-4b7b-8a38-2198b83fe49d.png">
+
+<img width="1224" alt="image" src="https://user-images.githubusercontent.com/91278747/215183768-9a023e31-5d5c-4a69-843d-6029ea846cf9.png">
+
+<img width="1224" alt="image" src="https://user-images.githubusercontent.com/91278747/215183936-53e3fc7b-829e-4426-8853-f920663b33bd.png">
+
+<img width="1285" alt="image" src="https://user-images.githubusercontent.com/91278747/215184272-1504566d-dc6e-47bd-bf8c-5ae1534d86bb.png">
+
+<img width="1401" alt="image" src="https://user-images.githubusercontent.com/91278747/215184444-9e6e8aaa-8488-428f-b210-772b827f7674.png">
+
+<img width="1401" alt="image" src="https://user-images.githubusercontent.com/91278747/215184525-cebf9a59-02d4-4665-99cb-1f7bc3490736.png">
+
+<img width="1401" alt="image" src="https://user-images.githubusercontent.com/91278747/215184597-0168c58d-aea1-4a31-8378-e1d2fa52e0ee.png">
+
+<img width="1330" alt="image" src="https://user-images.githubusercontent.com/91278747/215184662-53695377-8b1a-469b-9222-1de486a75d4e.png">
