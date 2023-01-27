@@ -30,6 +30,13 @@ E INDEX:
 
 <img width="310" alt="image" src="https://user-images.githubusercontent.com/91278747/214793666-043e6e16-2ad2-454e-8bfb-3d5b381bacd0.png">
 
+i10 INDEX:
+
+i10-Index = the number of publications with at least 10 citations.  
+
+
+
+
 # FEATURES:
 
 choose your color! auxillary tabs will be colored by its gradient or color complement
