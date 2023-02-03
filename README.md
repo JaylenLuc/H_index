@@ -1,7 +1,7 @@
 # H_index
 Jar file is included to run the program
 
-jFreeChart WILL BE NEEDED TO RUN*****
+jFreeChart 1.0.19 WILL BE NEEDED TO RUN*****
 add jfree to classpath:
 https://www.tutorialspoint.com/jfreechart/jfreechart_installation.htm
 
